@@ -12,3 +12,5 @@ sudo echo 'export PROJECT_HOME=/vagrant' >> /home/vagrant/.bashrc
 sudo echo 'source /usr/local/bin/virtualenvwrapper.sh' >> /home/vagrant/.bashrc
 
 sudo echo 'cd /vagrant' >> /home/vagrant/.profile
+
+sudo -u postgres psql -c "CREATE ROLE vagrant WITH PASSWORD 'vagrant' SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;"

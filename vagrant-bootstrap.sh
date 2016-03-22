@@ -1,6 +1,7 @@
 sudo apt-get update
 sudo apt-get install -y python-pip vim postgresql postgresql-contrib python-dev python-psycopg2 libpq-dev git
 
+sudo pip install --upgrade pip
 sudo pip install virtualenv
 sudo pip install virtualenvwrapper
 sudo pip install cookiecutter

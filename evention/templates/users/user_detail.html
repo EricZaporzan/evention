@@ -1,14 +1,19 @@
 {% extends "base.html" %}
-{% load static %}
-
-{% block title %}User: {{ object.username }}{% endblock %}
+{% load static thumbnail %}
 
 {% block content %}
-<div class="container">
 
   <div class="row">
-    <div class="col-sm-12">
-
+    {% if object.picture %}
+    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
+      {% thumbnail object.picture "200x200" crop="center" as im %}
+        <a href="#">
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail" data-toggle="tooltip" data-placement="bottom" title="Click image to change.">
+        </a>
+      {% endthumbnail %}
+    </div>
+    {% endif %}
+    <div class="col-xs-12 col-sm-8 col-md-9">
       <h2>{{ object.username }}</h2>
       {% if object.name %}
         <p>{{ object.name }}</p>
@@ -17,6 +22,9 @@
   </div>
 
 {% if object == request.user %}
+
+<hr />
+
 <!-- Action buttons -->
 <div class="row">
 
@@ -30,7 +38,5 @@
 <!-- End Action buttons -->
 {% endif %}
 
-
-</div>
 {% endblock content %}
 

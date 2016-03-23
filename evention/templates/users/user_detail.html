@@ -16,27 +16,12 @@
     <div class="col-xs-12 col-sm-8 col-md-9">
       <h2>{{ object.username }}</h2>
       {% if object.name %}
-        <p>{{ object.name }}</p>
+        <p>{{ object.name }}{% if object == request.user %} (<a href="">edit</a>){% endif %}</p>
+      {% endif %}
+      {% if object == request.user %}
+        <p><a href="{% url 'account_email' %}">Update e-mail addresses</a>.</p>
       {% endif %}
     </div>
   </div>
 
-{% if object == request.user %}
-
-<hr />
-
-<!-- Action buttons -->
-<div class="row">
-
-  <div class="col-sm-12 ">
-    <a class="btn btn-primary" href="{% url 'users:update' %}">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}">E-Mail</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
-
-</div>
-<!-- End Action buttons -->
-{% endif %}
-
 {% endblock content %}
-

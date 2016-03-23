@@ -7,9 +7,14 @@
     {% if object.picture %}
     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
       {% thumbnail object.picture "200x200" crop="center" as im %}
+
+        {% if object == request.user %}
         <a href="#">
           <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail" data-toggle="tooltip" data-placement="bottom" title="Click image to change.">
         </a>
+        {% else %}
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail">
+        {% endif %}
       {% endthumbnail %}
     </div>
     {% endif %}

@@ -4,18 +4,24 @@
 
 <h2>What artists do you like?</h2>
 <div>
-    <input class="form-control" data-bind="textInput: bandSearch" placeholder="Start typing..." />
+    <input id="band-search" class="form-control" data-bind="textInput: bandSearch" placeholder="Start typing..." />
     <p>Search powered by <a href="https://spotify.com">Spotify</a>.</p>
 </div>
 
 <div data-bind="foreach: bandResults, visible: bandResults().length > 0" class="media">
     <div class="media-left media-middle">
-        <img src="" height="200px" width="200px" data-bind="attr:{src: image}" class="media-object">
+        <img width="200px" data-bind="attr:{src: image}" class="media-object">
     </div>
     <div class="media-body">
         <h4 data-bind="text: name" class="media-heading"></h4>
     </div>
     <hr/>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $("#band-search").focus();
+    });
+</script>
 
 {% endblock %}

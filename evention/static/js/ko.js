@@ -5,7 +5,7 @@ function Task(data) {
 
 function BandSearchViewModel() {
     this.bandSearch = ko.observable('');
-    this.spotifySearch = ko.pureComputed(this.bandSearch).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 600 } });
+    this.spotifySearch = ko.pureComputed(this.bandSearch).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 1000 } });
 
     var self = this;
     self.spotifySearch.subscribe(function(newValue) {

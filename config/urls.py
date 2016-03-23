@@ -19,8 +19,7 @@ urlpatterns = [
     url(r'^users/', include("evention.users.urls", namespace="users")),
     url(r'^accounts/', include('allauth.urls')),
 
-    # Your stuff: custom urls includes go here
-
+    url(r'^events/', include('evention.events.urls', namespace="events"))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

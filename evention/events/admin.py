@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Likes
+
+
+class LikesAdmin(admin.ModelAdmin):
+    list_display = ("owner", "type", "performer", "since")
+
+admin.site.register(Likes, LikesAdmin)

@@ -11,10 +11,12 @@ from django.views import defaults as default_views
 from rest_framework import routers, serializers, viewsets
 
 from evention.users.views import UserViewSet
+from evention.events.views import LikesViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'likes', LikesViewSet)
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name="home"),

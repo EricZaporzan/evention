@@ -2,6 +2,11 @@
 
 {% block content %}
 
+<h2>Your favourite artists</h2>
+<p data-bind="visible: favouriteBands().length == 0">Looks like there's nothing here... find your favourite musical acts below!</p>
+
+
+
 <h2>What artists do you like?</h2>
 <div>
     <input id="band-search" class="form-control" data-bind="textInput: bandSearch" placeholder="Start typing..." />
@@ -20,7 +25,11 @@
 
 <script>
     $(document).ready(function(){
-        $("#band-search").focus();
+        $("#band-search").focus(); // Start typing right away.
+    });
+
+    $('#band-search').submit(function(event) {
+        event.preventDefault();
     });
 </script>
 

@@ -8,6 +8,7 @@ function BandSearchViewModel() {
     self.bandSearch = ko.observable('');
     self.spotifySearch = ko.pureComputed(this.bandSearch).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 1000 } });
     self.bandResults = ko.observableArray([]);
+    self.favouriteBands = ko.observableArray([]);
 
     self.spotifySearch.subscribe(function(newValue) {
         self.bandResults.removeAll();
@@ -29,6 +30,8 @@ function BandSearchViewModel() {
             }
         });
     });
+
+
 }
 
 ko.applyBindings(new BandSearchViewModel());

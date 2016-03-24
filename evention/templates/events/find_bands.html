@@ -4,7 +4,7 @@
 
 <h2>Your favourite artists</h2>
 <p data-bind="visible: favouriteBands().length == 0">Looks like there's nothing here... find your favourite musical acts below!</p>
-
+<div data-bind="foreach: getBands, visible: bandResults().length > 0" class="media">
 
 
 <h2>What artists do you like?</h2>

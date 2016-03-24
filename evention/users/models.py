@@ -25,7 +25,10 @@ class User(AbstractUser):
     picture = ImageField(_("Profile Picture"), upload_to=upload_to, blank=True)
 
     def __str__(self):
-        return self.name
+        if self.name != '':
+            return self.name
+        else:
+            return self.username
 
     def get_absolute_url(self):
         return reverse('users:detail', kwargs={'username': self.username})

@@ -31,7 +31,17 @@ function BandSearchViewModel() {
         });
     });
 
+    self.getBands = function() {
+        $.ajax({
+            url: '/api/likes/',
+            success: function(response) {
+                for (var i=0; i < response.length; i++) {
+                    self.favouriteBands.push(new Band({name: response[i].artist, image: ''}));
+                }
+            }
+        });
 
+    }
 }
 
 ko.applyBindings(new BandSearchViewModel());

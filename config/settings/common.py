@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = (
     'allauth.socialaccount',  # registration
     'sorl.thumbnail', # Utility for quickly creating thumbnails
     'rest_framework',
+    'django_filters',
 )
 
 # Apps specific for this project go here.

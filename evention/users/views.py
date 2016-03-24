@@ -54,3 +54,6 @@ class UserListView(LoginRequiredMixin, ListView):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user

@@ -55,10 +55,10 @@ function BandSearchViewModel() {
     });
 
     self.likeBand = function(item) {
-        user_url = $.ajax({
+        $.ajax({
             url: '/api/users/0/?format=json',
             success: function(response) {
-                user_url = response.url;
+                var user_url = response.url;
                 $.ajax({
                     method: 'POST',
                     url: '/api/likes/',
@@ -72,17 +72,12 @@ function BandSearchViewModel() {
                         image: item.image
                     },
                     success: function(response) {
-                        console.log(response)
-                    },
-                    error: function(response) {
-                        console.log(response)
+                        console.log(response);
+                        self.favouriteBands.push(item);
                     }
                 });
             }
         });
-        console.log(user_url);
-
-
     }
 }
 

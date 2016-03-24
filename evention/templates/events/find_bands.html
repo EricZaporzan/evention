@@ -6,39 +6,40 @@
 <p data-bind="visible: favouriteBands().length == 0">Looks like there's nothing here... find your favourite musical acts below and add them!</p>
 <div data-bind="foreach: favouriteBands, visible: favouriteBands().length > 0" class="media">
   <div class="media-left media-middle">
-        <img width="200px" data-bind="attr:{src: image}" class="media-object">
-    </div>
-    <div class="media-body">
-        <h4 data-bind="text: name" class="media-heading"></h4>
-    </div>
+    <img width="100px" data-bind="attr:{src: image}" class="media-object">
+  </div>
+  <div class="media-body">
+    <h4 data-bind="text: name" class="media-heading"></h4>
+  </div>
   <hr/>
 </div>
 
 <h2>What <span data-bind="visible: favouriteBands().length > 0">other </span>artists do you like?</h2>
 <div>
-    <input id="band-search" class="form-control" data-bind="textInput: bandSearch" placeholder="Start typing..." />
-    <p>Search powered by <a href="https://spotify.com" target="_blank">Spotify</a>.</p>
+  <input id="band-search" class="form-control" data-bind="textInput: bandSearch" placeholder="Start typing..." />
+  <p>Search powered by <a href="https://spotify.com" target="_blank">Spotify</a>.</p>
 </div>
 
 <div data-bind="foreach: bandResults, visible: bandResults().length > 0" class="media">
-    <div class="media-left media-middle">
-        <img width="200px" data-bind="attr:{src: image}" class="media-object">
-    </div>
-    <div class="media-body">
-        <h4 data-bind="text: name" class="media-heading"></h4>
-        <p><a href="#">Add to my list.</a></p>
-    </div>
-    <hr/>
+  <div class="media-left media-middle">
+    <img width="200px" data-bind="attr:{src: image}" class="media-object">
+  </div>
+  <div class="media-body">
+    <h4 data-bind="text: name" class="media-heading"></h4>
+    <p data-bind="visible: disliked"><a data-bind="click: $parent.likeBand" href="#">Add to my list.</a></p>
+    <p data-bind="visible: liked"><a href="#">Remove from my list.</a></p>
+  </div>
+  <hr/>
 </div>
 
 <script>
-    $(document).ready(function(){
-        $("#band-search").focus(); // Start typing right away.
-    });
+  $(document).ready(function(){
+    $("#band-search").focus(); // Start typing right away.
+  });
 
-    $('#band-search').submit(function(event) {
-        event.preventDefault();
-    });
+  $('#band-search').submit(function(event) {
+    event.preventDefault();
+  });
 </script>
 
 {% endblock %}

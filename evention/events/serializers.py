@@ -6,4 +6,4 @@ from .models import Likes
 class LikesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Likes
-        fields = ('owner', 'type', 'performer', 'since')
+        fields = ('owner', 'type', 'performer', 'since', 'image')

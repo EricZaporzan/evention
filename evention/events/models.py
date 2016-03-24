@@ -10,3 +10,5 @@ class Likes(models.Model):
     type = models.CharField(max_length=32)  # could be 'artist', 'comedian', 'team', etc.
     performer = models.CharField(max_length=256)
     since = models.DateTimeField(auto_now_add=True)
+    image = models.URLField(default="/static/images/noimage.png")
+

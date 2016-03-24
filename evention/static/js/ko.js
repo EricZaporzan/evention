@@ -74,6 +74,9 @@ function BandSearchViewModel() {
                     success: function(response) {
                         console.log(response);
                         self.favouriteBands.push(item);
+                    },
+                    error: function(response) {
+                        console.log(response);
                     }
                 });
             }

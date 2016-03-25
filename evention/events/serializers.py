@@ -6,4 +6,4 @@ from .models import Likes
 class LikesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Likes
-        fields = ('owner', 'type', 'performer', 'since', 'image')
+        fields = ('id', 'owner', 'liked', 'performer', 'since', 'image')

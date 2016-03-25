@@ -7,8 +7,7 @@ from django.db import models
 # Create your models here.
 class Likes(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
-    type = models.CharField(max_length=32)  # could be 'artist', 'comedian', 'team', etc.
+    liked = models.BooleanField(default=True)
     performer = models.CharField(max_length=256)
-    since = models.DateTimeField(auto_now_add=True)
+    since = models.DateTimeField(auto_now=True)
     image = models.URLField(default="/static/images/noimage.png")
-

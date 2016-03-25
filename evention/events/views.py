@@ -12,11 +12,11 @@ class LikesViewSet(viewsets.ModelViewSet):
     queryset = Likes.objects.all()
     serializer_class = LikesSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('owner', 'type', 'performer', 'since')
+    filter_fields = ('owner', 'liked', 'performer', 'since')
 
     def get_queryset(self):
         """
-        This view should return a list of all the purchases
+        This view should return a list of all the likes
         for the currently authenticated user.
         """
         user = self.request.user

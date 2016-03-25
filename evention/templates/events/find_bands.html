@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block knockout %}
+<script src="{% static 'js/ko-band.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 

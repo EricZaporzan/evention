@@ -23,9 +23,7 @@
 
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
-    {% block knockout %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
-    {% endblock %}
 
   </head>
 
@@ -103,7 +101,10 @@
 
       <!-- place project specific Javascript in this file -->
       <script src="{% static 'js/project.js' %}"></script>
-      <script src="{% static 'js/ko.js' %}"></script>
+
+      <!-- knockout files go in this block, as needed, to save on processing time. -->
+      {% block knockout %}{% endblock %}
+
     {% endblock javascript %}
   </body>
 </html>

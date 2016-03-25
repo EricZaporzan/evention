@@ -9,6 +9,7 @@ from rest_framework import viewsets
 
 from .models import User
 from .serializers import UserSerializer
+from evention.events.models import Likes
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -16,6 +17,11 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     # These next two lines tell the view to index lookups by username
     slug_field = "username"
     slug_url_kwarg = "username"
+
+    def get_context_data(self, **kwargs):
+        context = super(UserDetailView, self).get_context_data(**kwargs)
+        context['likes'] = Likes.objects.filter(owner=self.request.user, liked=True)
+        return context
 
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):

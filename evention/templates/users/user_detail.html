@@ -28,5 +28,19 @@
       {% endif %}
     </div>
   </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>{{ object.username }}'s likes</h3>
+      {% if likes.all %}
+        {% for like in likes %}
+          <p>{{ like.performer }}</p>
+        {% endfor %}
+      {% else %}
+        <p>{{ object.username }} apparently doesn't like anything. That's kind of sad.</p>
+      {% endif %}
+    </div>
+  </div>
+
+
 
 {% endblock content %}

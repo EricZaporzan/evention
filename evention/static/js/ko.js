@@ -1,5 +1,5 @@
 function Band(data) {
-    this.likeId = ko.observable(data.id);
+    this.likeId = ko.observable(data.likeId);
     this.name = ko.observable(data.name);
     this.image = ko.observable(data.image);
     this.liked = ko.observable(data.liked);
@@ -28,16 +28,22 @@ function BandSearchViewModel() {
                         }
 
                         var alreadyLiked = false;
+                        var likeId = -1;
                         var favouriteBands = self.favouriteBands();
                         for (var j = 0; j < favouriteBands.length; j++) {
-                            if (favouriteBands[j].name() == response.artists.items[i].name && favouriteBands[j].liked()) {
-                                alreadyLiked = true;
-                                break;
+                            if (favouriteBands[j].name() == response.artists.items[i].name) {
+                                if (favouriteBands[j].liked()) {
+                                    alreadyLiked = true;
+                                    break;
+                                }
+                                else {
+                                    likeId = favouriteBands[j].likeId();
+                                }
                             }
                         }
                         if (!alreadyLiked) {
                             self.bandResults.push(new Band({
-                                likeId: -1,
+                                likeId: likeId,
                                 name: response.artists.items[i].name,
                                 image: image,
                                 liked: false
@@ -57,7 +63,7 @@ function BandSearchViewModel() {
     // Pull down initial likes from the server.
     $.ajax({
         method: 'GET',
-        url: '/api/likes/?liked=True',
+        url: '/api/likes/',
         success: function(response) {
             for (var i=0; i < response.length; i++) {
                 self.favouriteBands.push(new Band({likeId: response[i].id,
@@ -72,92 +78,96 @@ function BandSearchViewModel() {
     self.likeBand = function(username, item) {
         console.log(item);
         $.ajax({
-            method: 'GET',
-            url: '/api/likes/?owner_id=' + username + '&performer=' + encodeURI(item.name),
-            success: function(response) {
-                if(response.length > 0) {
-                    $.ajax({
-                        method: 'PUT',
-                        url: '/api/likes/' + response[0].id + '/',
-                        headers: {
-                            'X-CSRFToken': getCookie('csrftoken')
-                        },
-                        data: {
-                            owner: username,
-                            liked: 'True',
-                            performer: item.name,
-                            image: item.image
-                        },
-                        success: function (response) {
-                            console.log(response);
-                            self.favouriteBands.push(item);
-                        },
-                        error: function (response) {
-                            console.log(response);
-                        }
-                    });
-                }
-                else {
-                    $.ajax({
-                        method: 'POST',
-                        url: '/api/likes/',
-                        headers: {
-                            'X-CSRFToken': getCookie('csrftoken')
-                        },
-                        data: {
-                            owner: username,
-                            liked: 'True',
-                            performer: item.name,
-                            image: item.image
-                        },
-                        success: function (response) {
-                            console.log(response);
-                            self.favouriteBands.push(item);
-                        },
-                        error: function (response) {
-                            console.log(response);
-                        }
-                    });
-                }
+            method: 'PUT',
+            url: '/api/likes/' + item.likeId() + '/',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            data: {
+                id: item.likeId(),
+                owner: username,
+                liked: true,
+                performer: item.name,
+                image: item.image
+            },
+            success: function (response) {
+                console.log(response);
+                item.likeId(response.id);
+                item.liked(true);
+                self.bandResults.remove(item);
+                self.favouriteBands.push(item);
+            },
+            error: function (response) {
+                console.log(response);
             }
         });
     };
 
     // Remove a band from the list of favourites.
     self.unlikeBand = function(username, item) {
-        var bandName = item.name();
         console.log(item);
-        console.log('/api/likes/?owner_id=' + username + '&performer=' + encodeURI(bandName));
-
         $.ajax({
-            method: 'GET',
-            url: '/api/likes/?owner_id=' + username + '&performer=' + encodeURI(bandName),
-            success: function(response) {
+            method: 'PUT',
+            url: '/api/likes/' + item.likeId() + '/',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            data: {
+                id: item.likeId(),
+                owner: username,
+                liked: false,
+                performer: item.name,
+                image: item.image
+            },
+            success: function (response) {
                 console.log(response);
-                if(response.length > 0) {
-                    $.ajax({
-                        method: 'PUT',
-                        url: '/api/likes/' + response[0].id + '/',
-                        headers: {
-                            'X-CSRFToken': getCookie('csrftoken')
-                        },
-                        data: {
-                            owner: username,
-                            liked: 'False',
-                            performer: item.name,
-                            image: item.image
-                        },
-                        success: function (response) {
-                            console.log(response);
-                        },
-                        error: function (response) {
-                            console.log(response);
-                        }
-                    });
-                }
+                item.liked(false);
+                item.likeId(response.id);
+            },
+            error: function (response) {
+                console.log(response);
             }
         });
     }
 }
+
+// Custom bindings
+ko.bindingHandlers.visibleElements = {
+    update: function(element, valueAccessor, allBindings) {
+        va = ko.utils.unwrapObservable(valueAccessor());
+        var show = false;
+        for (var i = 0; i < va.length; i++) {
+            if (va[i].liked()) {
+                show = true;
+                break;
+            }
+        }
+        if(show) {
+            $(element).css('display', '');
+        }
+        else {
+            $(element).css('display', 'none');
+        }
+    }
+};
+
+ko.bindingHandlers.noVisibleElements = {
+    update: function(element, valueAccessor, allBindings) {
+        va = ko.utils.unwrapObservable(valueAccessor());
+        var show = false;
+        for (var i = 0; i < va.length; i++) {
+            if (va[i].liked()) {
+                show = true;
+                break;
+            }
+        }
+        if(show) {
+            $(element).css('display', 'none');
+        }
+        else {
+            $(element).css('display', '');
+        }
+    }
+};
 
 ko.applyBindings(new BandSearchViewModel());

@@ -33,7 +33,14 @@
       <h3>{{ object.username }}'s likes</h3>
       {% if likes.all %}
         {% for like in likes %}
-          <p>{{ like.performer }}</p>
+          <div class="media">
+            <div class="media-left">
+              <img class="media-object" width="150px" src="{{ like.image }}">
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">{{ like.performer }}</h4>
+            </div>
+          </div>
         {% endfor %}
       {% else %}
         <p>{{ object.username }} apparently doesn't like anything. That's kind of sad.</p>

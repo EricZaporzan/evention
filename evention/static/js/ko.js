@@ -12,6 +12,8 @@ function BandSearchViewModel() {
     self.bandResults = ko.observableArray([]);
     self.favouriteBands = ko.observableArray([]);
 
+
+    // Each time there is a delay in typing, query Spotify for the list of artists returned by the search query.
     self.spotifySearch.subscribe(function(newValue) {
         self.bandResults.removeAll();
         if (newValue != "") {
@@ -43,6 +45,7 @@ function BandSearchViewModel() {
         }
     });
 
+    // Pull down initial likes from the server.
     $.ajax({
         url: '/api/likes/',
         success: function(response) {
@@ -54,31 +57,28 @@ function BandSearchViewModel() {
         }
     });
 
-    self.likeBand = function(item) {
+    // Add a band to the list of favourites. 
+    self.likeBand = function(username, item) {
+        console.log(username);
+        console.log(item);
         $.ajax({
-            url: '/api/users/0/?format=json',
+            method: 'POST',
+            url: '/api/likes/',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            data: {
+                owner: username,
+                type: 'artist',
+                performer: item.name,
+                image: item.image
+            },
             success: function(response) {
-                var user_url = response.url;
-                $.ajax({
-                    method: 'POST',
-                    url: '/api/likes/',
-                    headers: {
-                        'X-CSRFToken': getCookie('csrftoken')
-                    },
-                    data: {
-                        owner: user_url,
-                        type: 'artist',
-                        performer: item.name,
-                        image: item.image
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        self.favouriteBands.push(item);
-                    },
-                    error: function(response) {
-                        console.log(response);
-                    }
-                });
+                console.log(response);
+                self.favouriteBands.push(item);
+            },
+            error: function(response) {
+                console.log(response);
             }
         });
     }

@@ -2,9 +2,36 @@
 
 {% block content %}
 
-<h2>Welcome to Evention</h2>
-<p>Events, near and far, at your fingertips.</p>
-<a href="{% url 'events:find_bands' %}" class="btn btn-primary">Find bands</a>
-<a href="#" class="btn btn-primary">Find sports</a>
+<h2>Welcome to Evention!</h2>
+<p>Music and sports, near and far, at your fingertips.</p>
+<div>
+  <a href="{% url 'events:find_bands' %}" class="btn btn-success">Find artists</a>
+  <a href="#" class="btn btn-success">Find sports</a>
+</div>
+
+<div class="youtube-hero">
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe id="youtube-hero" class="embed-responsive-item"></iframe>
+  </div>
+</div>
+
+
+<script>
+  // deliver a random YouTube embed to the big-ass frame we set up.
+  $(document).ready(function() {
+    var rand_youtube = [
+      "https://www.youtube.com/embed/9cnBxSB1jUE",
+      "https://www.youtube.com/embed/bptnhUOG2GU",
+      "https://www.youtube.com/embed/Hc16Y9fiCvQ",
+      "https://www.youtube.com/embed/hRK7PVJFbS8",
+      "https://www.youtube.com/embed/xQF5xuLrjpY",
+
+    ];
+    var video_embed = rand_youtube[Math.floor(Math.random()*rand_youtube.length)];
+    $("#youtube-hero").attr('src', video_embed);
+  });
+
+
+</script>
 
 {% endblock %}

@@ -12,8 +12,8 @@
   <p data-bind="noVisibleElements: favouriteBands">Looks like there's nothing here... find your favourite musical acts and add them!</p>
   <ul data-bind="foreach: favouriteBands, visibleElements: favouriteBands" class="list-group">
     <li data-bind="visible: liked" class="list-group-item">
-      <p data-bind="text: name"></p>
-      <p><a data-bind="click: $parent.unlikeBand.bind($parent, '{{ request.user.id }}')" href="#">Remove from my list.</a></p>
+      <a data-bind="click: $parent.unlikeBand.bind($parent, '{{ request.user.id }}')" href="#" class="text-danger" title="Remove from your likes?"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+      <span data-bind="text: name"></span>
     </li>
   </ul>
 </div>
@@ -32,7 +32,7 @@
       </div>
       <div class="media-body">
         <h4 data-bind="text: name" class="media-heading"></h4>
-        <p><a data-bind="click: $parent.likeBand.bind($parent, '{{ request.user.id }}')" href="#">Add to my list.</a></p>
+        <p><a data-bind="click: $parent.likeBand.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-success"><span class="glyphicon glyphicon-plus"></span></span> Add to my list</a></p>
       </div>
     </div>
   </div>

@@ -6,6 +6,6 @@ from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='events/find_bands.html'), name="find_bands"),
+    url(r'^$', views.find_bands, name="find_bands"),
 
 ]

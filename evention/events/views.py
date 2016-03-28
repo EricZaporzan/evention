@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 from rest_framework import viewsets
 from rest_framework import filters
@@ -6,6 +7,12 @@ from rest_framework.response import Response
 
 from .models import Likes
 from .serializers import LikesSerializer
+
+
+# Django views
+@login_required
+def find_bands(request):
+    return render(request, "events/find_bands.html", {})
 
 
 # REST framework

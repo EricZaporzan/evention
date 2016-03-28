@@ -24,7 +24,7 @@ class LikesViewSet(viewsets.ModelViewSet):
         return Likes.objects.filter(owner=user)
 
     def update(self, request, *args, **kwargs):
-        try:
+        try:  # In case of un-liking an existing like, or re-liking an old like.
             like = Likes.objects.get(id=request.data['id'])
         except Likes.DoesNotExist:
             like = Likes(owner=request.user, performer=request.data['performer'], image=request.data['image'])

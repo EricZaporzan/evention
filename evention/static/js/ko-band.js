@@ -65,10 +65,11 @@ function BandSearchViewModel() {
         method: 'GET',
         url: '/api/likes/',
         success: function(response) {
+            console.log(response)
             for (var i=0; i < response.length; i++) {
                 self.favouriteBands.push(new Band({likeId: response[i].id,
-                                                   name: response[i].performer,
-                                                   image: response[i].image,
+                                                   name: response[i].performer.name,
+                                                   image: response[i].performer.image,
                                                    liked: response[i].liked}));
             }
         }

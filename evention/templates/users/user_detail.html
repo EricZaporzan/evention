@@ -35,10 +35,10 @@
         {% for like in likes %}
           <div class="media">
             <div class="media-left">
-              <img class="media-object" width="150px" src="{{ like.image }}">
+              <img class="media-object" width="150px" src="{{ like.performer.image }}">
             </div>
             <div class="media-body">
-              <h4 class="media-heading">{{ like.performer }}</h4>
+              <h4 class="media-heading">{{ like.performer.name }}</h4>
             </div>
           </div>
         {% endfor %}

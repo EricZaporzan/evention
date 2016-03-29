@@ -5,8 +5,8 @@
 <h2>Welcome to Evention!</h2>
 <p>Music and sports, near and far, at your fingertips.</p>
 <div>
-  <a href="{% url 'events:find_bands' %}" class="btn btn-success">Find artists</a>
-  <a href="#" class="btn btn-success">Find sports</a>
+  <a href="{% url 'events:find_bands' %}" class="btn btn-success">Find artists (beta)</a>
+  <a href="#" class="btn btn-success">Find sports (coming soon)</a>
 </div>
 
 <div class="youtube-hero">
@@ -15,16 +15,15 @@
   </div>
 </div>
 
-
 <script>
   // deliver a random YouTube embed to the big-ass frame we set up.
   $(document).ready(function() {
     var rand_youtube = [
-      "https://www.youtube.com/embed/9cnBxSB1jUE",
-      "https://www.youtube.com/embed/bptnhUOG2GU",
-      "https://www.youtube.com/embed/Hc16Y9fiCvQ",
-      "https://www.youtube.com/embed/hRK7PVJFbS8",
-      "https://www.youtube.com/embed/xQF5xuLrjpY",
+      "https://www.youtube.com/embed/bptnhUOG2GU", // Cry for Judas - Mountain Goats
+      "https://www.youtube.com/embed/Hc16Y9fiCvQ", // Spaceman - Killers
+      "https://www.youtube.com/embed/hRK7PVJFbS8", // King Kunta - Kendrick Lamar
+      "https://www.youtube.com/embed/xQF5xuLrjpY", // Tournament of Hearts - Weakerthans
+      "https://www.youtube.com/embed/yjiJM_Daoa0", // Damn These Vampires - Mountain Goats
 
     ];
     var video_embed = rand_youtube[Math.floor(Math.random()*rand_youtube.length)];

@@ -4,13 +4,14 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from rest_framework import filters
 from rest_framework.response import Response
+from rest_framework.exceptions import APIException, PermissionDenied
 
-from .models import Likes
+from .models import Likes, Performer
 from .serializers import LikesSerializer
 
 
 # Django views
-@login_required
+@login_required()
 def find_bands(request):
     return render(request, "events/find_bands.html", {})
 
@@ -30,11 +31,22 @@ class LikesViewSet(viewsets.ModelViewSet):
         user = self.request.user
         return Likes.objects.filter(owner=user)
 
+    # Handles PUT requests.
     def update(self, request, *args, **kwargs):
         try:  # In case of un-liking an existing like, or re-liking an old like.
             like = Likes.objects.get(id=request.data['id'])
-        except Likes.DoesNotExist:
-            like = Likes(owner=request.user, performer=request.data['performer'], image=request.data['image'])
+
+        except Likes.DoesNotExist:  # Else create a new like
+            try:
+                performer = Performer.objects.get(name=request.data['performer'])
+            except Performer.DoesNotExist:
+                performer = Performer(name=request.data['performer'], type='artist', image=request.data['image'])
+                performer.save()
+
+            like = Likes(owner=request.user, performer=performer)
+
+        if like.owner != request.user:
+            raise PermissionDenied("Adding likes for different users not supported.")
 
         print request.data['liked']
         if request.data['liked'] == 'true':

@@ -65,7 +65,6 @@ function BandSearchViewModel() {
         method: 'GET',
         url: '/api/likes/',
         success: function(response) {
-            console.log(response)
             for (var i=0; i < response.length; i++) {
                 self.favouriteBands.push(new Band({likeId: response[i].id,
                                                    name: response[i].performer.name,

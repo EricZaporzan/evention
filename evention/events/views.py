@@ -20,6 +20,9 @@ def find_bands(request):
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('performer', 'venue_name', 'city', 'country',
+                     'latitude', 'longitude', 'start_time')
 
     def get_queryset(self):
         user = self.request.user

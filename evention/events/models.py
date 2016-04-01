@@ -4,6 +4,16 @@ from django.conf import settings
 from django.db import models
 
 
+class Event(models.Model):
+    performer = models.ForeignKey('Performer')
+    venue_name = models.CharField(max_length=1024)
+    city = models.CharField(max_length=256)
+    country = models.CharField(max_length=256)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    start_time = models.DateTimeField()
+
+
 class Likes(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
     liked = models.BooleanField(default=True)

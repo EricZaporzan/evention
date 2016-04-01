@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from .models import Likes, Performer
+from .models import Event, Likes, Performer
+
+
+class EventAdmin(admin.ModelAdmin):
+    list_display = ("performer", "city", "start_time")
 
 
 class LikesAdmin(admin.ModelAdmin):
@@ -10,5 +14,6 @@ class LikesAdmin(admin.ModelAdmin):
 class PerformerAdmin(admin.ModelAdmin):
     list_display = ("name", "type", "description")
 
+admin.site.register(Event, EventAdmin)
 admin.site.register(Likes, LikesAdmin)
 admin.site.register(Performer, PerformerAdmin)

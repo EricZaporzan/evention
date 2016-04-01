@@ -49,9 +49,9 @@
             {% if request.user.is_authenticated %}
               {% if request.user.is_staff %}
                 {% if debug %}
-                <li><a href="{% url 'api:api-root' %}">API Reference</a></li>
-                <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                  <li><a href="{% url 'api:api-root' %}">API Reference</a></li>
                 {% endif %}
+                <li><a href="{% url 'admin:index' %}">Admin</a></li>
               {% endif %}
               <li><a href="{% url 'users:detail' request.user.username  %}">Account</a></li>
               <li><a href="{% url 'account_logout' %}">Log Out</a></li>

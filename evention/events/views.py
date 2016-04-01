@@ -21,6 +21,21 @@ class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
+    def get_queryset(self):
+        user = self.request.user
+        user_likes = Likes.objects.filter(owner=user)
+        performers = list()
+        for like in user_likes:
+            if like.liked:
+                performers.append(like.performer)
+        return Event.objects.filter(performer__in=performers)
+
+    def create(self, request, *args, **kwargs):
+        raise PermissionDenied("Creating and updating events is not yet supported through the API")
+
+    def update(self, request, *args, **kwargs):
+        raise PermissionDenied("Creating and updating events is not yet supported through the API")
+
 
 class LikesViewSet(viewsets.ModelViewSet):
     queryset = Likes.objects.all()

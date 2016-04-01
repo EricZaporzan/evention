@@ -6,8 +6,8 @@ from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException, PermissionDenied
 
-from .models import Likes, Performer
-from .serializers import LikesSerializer
+from .models import Event, Likes, Performer
+from .serializers import EventSerializer, LikesSerializer
 
 
 # Django views
@@ -17,6 +17,11 @@ def find_bands(request):
 
 
 # REST framework
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+
 class LikesViewSet(viewsets.ModelViewSet):
     queryset = Likes.objects.all()
     serializer_class = LikesSerializer

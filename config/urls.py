@@ -11,11 +11,12 @@ from django.views import defaults as default_views
 from rest_framework import routers, serializers, viewsets
 
 from evention.users.views import UserViewSet
-from evention.events.views import LikesViewSet
+from evention.events.views import EventViewSet, LikesViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'events', EventViewSet)
 router.register(r'likes', LikesViewSet)
 
 urlpatterns = [
@@ -34,7 +35,7 @@ urlpatterns = [
 
     # REST framework
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/', include(router.urls)),
+    url(r'^api/', include(router.urls, namespace='api')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

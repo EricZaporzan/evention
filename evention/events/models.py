@@ -13,6 +13,9 @@ class Event(models.Model):
     longitude = models.FloatField()
     start_time = models.DateTimeField()
 
+    def __str__(self):
+        return self.performer.name + " is in " + self.city + " on " + self.start_time
+
 
 class Likes(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)

@@ -14,7 +14,7 @@ class Event(models.Model):
     start_time = models.DateTimeField()
 
     def __str__(self):
-        return self.performer.name + " is in " + self.city
+        return self.performer.name + " is in " + self.city + " on " + str(self.start_time)
 
 
 class Likes(models.Model):

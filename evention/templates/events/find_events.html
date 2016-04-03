@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block knockout %}
+<script src="{% static 'js/ko-event.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Upcoming events</h2>
+    <p>
+      ...there's nothing here yet, sorry. Add your favourite bands and musicians
+      <a href="{% url 'events:find_bands' %}">here</a>, and stay tuned for updates to this space!
+    </p>
+  </div>
+</div>
+<div class="eventful-badge eventful-large">
+  <img src="http://api.eventful.com/images/powered/eventful_139x44.gif"
+    alt="Local Events, Concerts, Tickets">
+  <p><a href="http://eventful.com/" target="_blank">Events</a> by Eventful</p>
+</div>
+
+<script>
+</script>
+
+{% endblock %}

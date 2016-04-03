@@ -12,8 +12,18 @@ from .serializers import EventSerializer, LikesSerializer
 
 # Django views
 @login_required()
+def find_events(request):
+    return render(request, "events/find_events.html", {})
+
+
+@login_required()
 def find_bands(request):
     return render(request, "events/find_bands.html", {})
+
+
+@login_required()
+def find_sports(request):
+    return render(request, "events/find_sports.html", {})
 
 
 # REST framework

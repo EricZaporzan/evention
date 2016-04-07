@@ -23,6 +23,9 @@ class Likes(models.Model):
     performer = models.ForeignKey('Performer')
     since = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name_plural = "likes"
+
     def __str__(self):
         return self.owner.username + " likes " + self.performer.name
 
@@ -42,3 +45,6 @@ class HomepageMedia(models.Model):
     band = models.CharField(max_length=256)
     song = models.CharField(max_length=256)
     embed_url = models.URLField(blank=False)
+
+    class Meta:
+        verbose_name_plural = "homepage media"

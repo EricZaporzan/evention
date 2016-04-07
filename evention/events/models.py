@@ -35,3 +35,10 @@ class Performer(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# Model for displaying videos on the homepage
+class HomepageMedia(models.Model):
+    band = models.CharField(max_length=256)
+    song = models.CharField(max_length=256)
+    embed_url = models.URLField(blank=False)

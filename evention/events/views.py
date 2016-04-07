@@ -1,13 +1,15 @@
+import random
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from rest_framework import viewsets
 from rest_framework import filters
 from rest_framework.response import Response
-from rest_framework.exceptions import APIException, PermissionDenied
+from rest_framework.exceptions import APIException, PermissionDenied, NotFound
 
-from .models import Event, Likes, Performer
-from .serializers import EventSerializer, LikesSerializer
+from .models import Event, Likes, Performer, HomepageMedia
+from .serializers import EventSerializer, LikesSerializer, HomepageMediaSerializer
 
 
 # Django views
@@ -93,3 +95,14 @@ class LikesViewSet(viewsets.ModelViewSet):
         like.save()
 
         return Response({'status': response_string, 'id': like.id})
+
+
+class HomepageMediaViewSet(viewsets.ModelViewSet):
+    queryset = HomepageMedia.objects.all()
+    serializer_class = HomepageMediaSerializer
+
+    def get_queryset(self):
+        try:
+            return HomepageMedia.objects.order_by('?')
+        except IndexError:
+            raise NotFound("Sorry, there's not any media added yet.")

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Event, Likes, Performer
+from .models import Event, Likes, Performer, HomepageMedia
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -14,6 +14,13 @@ class LikesAdmin(admin.ModelAdmin):
 class PerformerAdmin(admin.ModelAdmin):
     list_display = ("name", "type", "description")
 
+
+class HomepageMediaAdmin(admin.ModelAdmin):
+    list_display = ("band", "song", "embed_url")
+
+
 admin.site.register(Event, EventAdmin)
 admin.site.register(Likes, LikesAdmin)
 admin.site.register(Performer, PerformerAdmin)
+admin.site.register(HomepageMedia, HomepageMediaAdmin)
+

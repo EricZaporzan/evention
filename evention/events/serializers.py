@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Event, Likes, Performer
+from .models import Event, Likes, Performer, HomepageMedia
 
 
 class PerformerSerializer(serializers.ModelSerializer):
@@ -24,3 +24,9 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = ('id', 'performer', 'venue_name', 'city',
                   'country', 'latitude', 'longitude', 'start_time')
+
+
+class HomepageMediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HomepageMedia
+        fields = ('band', 'song', 'embed_url')

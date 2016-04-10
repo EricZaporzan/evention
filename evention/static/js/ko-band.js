@@ -9,7 +9,7 @@ function Band(data) {
 function BandSearchViewModel() {
     var self = this;
     self.bandSearch = ko.observable('');
-    self.spotifySearch = ko.pureComputed(this.bandSearch).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 1000 } });
+    self.spotifySearch = ko.pureComputed(this.bandSearch).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 600 } });
     self.bandResults = ko.observableArray([]);
     self.favouriteBands = ko.observableArray([]);
 

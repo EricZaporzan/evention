@@ -10,11 +10,13 @@
   <a href="{% url 'events:find_events' %}" class="btn btn-success">Discover events (coming soon)</a>
 </div>
 
+<hr />
+
 <div class="youtube-hero">
+  <h3 id="youtube-hero-text"></h3>
   <div class="embed-responsive embed-responsive-16by9">
     <iframe id="youtube-hero" class="embed-responsive-item"></iframe>
   </div>
-  <h3 id="youtube-hero-text"></h3>
 </div>
 
 <script>
@@ -22,7 +24,7 @@
   $(document).ready(function() {
     $.ajax({
         method: 'GET',
-        url: '/api/homepage-videos/',
+        url: '{% url "api:homepage-media-list" %}',
         success: function(response) {
           $("#youtube-hero").attr('src', response[0].embed_url);
           $("#youtube-hero-text").html("Find " + response[0].band + " on Evention!");

@@ -18,7 +18,7 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'events', EventViewSet)
 router.register(r'likes', LikesViewSet)
-router.register(r'homepage-videos', HomepageMediaViewSet)
+router.register(r'homepage-videos', HomepageMediaViewSet, 'homepage-media')
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name="home"),

@@ -50,6 +50,8 @@ def fetch_all():
                                   latitude=result['latitude'],
                                   longitude=result['longitude'],
                                   start_time=result['start_time'])
+
+                    # We'll try to create every new event, our uniqueness constraint on eventful_id prevents duplicates.
                     try:
                         event.save()
                         print "New event created."

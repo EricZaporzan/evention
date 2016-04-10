@@ -239,3 +239,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ]
 }
+
+EVENTFUL_APPLICATION_KEY = env('EVENTFUL_APPLICATION_KEY', default='')

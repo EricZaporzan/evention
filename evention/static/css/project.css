@@ -1,4 +1,6 @@
-/* These styles are generated from project.scss. */
+body {
+  padding-bottom: 100px;
+}
 
 .alert-debug {
   color: black;

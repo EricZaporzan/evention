@@ -68,30 +68,27 @@
     </nav>
 
     <div class="container">
-
       {% if messages %}
           {% for message in messages %}
               <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
           {% endfor %}
       {% endif %}
-
-      {% block content %}
-
-      {% endblock content %}
-
+      {% block content %}{% endblock content %}
     </div> <!-- /container -->
+    <div class="navbar navbar-default navbar-fixed-bottom hidden-xs">
+      <div class="container">
+        <p class="navbar-text">A site by <a class="navbar-link" href="http://ericzaporzan.com" target="_blank">Eric Zaporzan</a>.
+        Built with Django, Knockout, Bootstrap, and more.</p>
+      </div>
+    </div>
 
-    {% block modal %}
+    {% block modal %}{% endblock modal %}
 
-    {% endblock modal %}
-
-    {% block ready %}
     <script>
     $(document).ready(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
     </script>
-    {% endblock ready %}
 
     <!-- javascript
     ================================================== -->

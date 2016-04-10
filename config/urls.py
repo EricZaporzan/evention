@@ -17,7 +17,7 @@ from evention.events.views import EventViewSet, LikesViewSet, HomepageMediaViewS
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'events', EventViewSet)
-router.register(r'likes', LikesViewSet)
+router.register(r'likes', LikesViewSet, 'likes')
 router.register(r'homepage-videos', HomepageMediaViewSet, 'homepage-media')
 
 urlpatterns = [

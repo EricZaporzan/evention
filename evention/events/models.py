@@ -48,3 +48,6 @@ class HomepageMedia(models.Model):
 
     class Meta:
         verbose_name_plural = "homepage media"
+
+    def __str__(self):
+        return self.band + " - " + self.song

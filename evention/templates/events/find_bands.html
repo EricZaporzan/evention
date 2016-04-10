@@ -11,9 +11,8 @@
   <div class="col-sm-12 col-md-6">
     <h2>Your favourite artists</h2>
     <p data-bind="noVisibleElements: favouriteBands">Looks like there's nothing here... find your favourite musical acts and add them!</p>
-    <ul data-bind="foreach: favouriteBands, visibleElements: favouriteBands">
-      <li data-bind="visible: liked" class="media">
-
+    <div data-bind="foreach: favouriteBands, visibleElements: favouriteBands">
+      <div data-bind="visible: liked" class="media">
         <div class="media-left media-middle">
           <img width="200px" data-bind="attr:{src:image}" class="media-object">
         </div>
@@ -21,8 +20,8 @@
           <h4 data-bind="text: name" class="media-heading"></h4>
           <p><a data-bind="click: $parent.unlikeBand.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span> Remove from my list</a></p>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 
   <div class="col-sm-12 col-md-6">

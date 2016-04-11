@@ -50,6 +50,13 @@ def fetch(performer):
                 elif result['performers']['performer']['name'].lower() == name.lower():
                     use_event = True
             if use_event:
+                if result['olson_path'] is not None:
+                    start_time = pytz.timezone(result['olson_path']).localize(
+                                         parse_datetime(result['start_time']))
+                else:
+                    start_time = parse_datetime(result['start_time'])
+
+
                 try:
                     event = Event.objects.get(eventful_id=result['id'])
                     if event.modified < pytz.timezone('UTC').localize(parse_datetime(result['modified'])):
@@ -61,8 +68,8 @@ def fetch(performer):
                         event.country = result['country_name']
                         event.latitude = result['latitude']
                         event.longitude = result['longitude']
-                        event.start_time = pytz.timezone(result['olson_path']).localize(
-                                         parse_datetime(result['start_time']))
+                        event.start_time = start_time
+
                         event.save()
                         print(event)
                     else:
@@ -76,8 +83,7 @@ def fetch(performer):
                                   country=result['country_name'],
                                   latitude=result['latitude'],
                                   longitude=result['longitude'],
-                                  start_time=pytz.timezone(result['olson_path']).localize(
-                                      parse_datetime(result['start_time'])))
+                                  start_time=start_time)
 
                     event.save()
                     print(event)

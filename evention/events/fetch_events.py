@@ -1,7 +1,9 @@
 import requests
+import pytz
 
 from django.conf import settings
 from django.db import IntegrityError
+from django.utils.dateparse import parse_datetime
 
 from .models import Performer, Event
 
@@ -44,6 +46,7 @@ def fetch_all():
                         use_event = True
 
                 if use_event:
+                    print(pytz.timezone(result['olson_path']))
                     event = Event(eventful_id=result['id'],
                                   title=result['title'],
                                   performer=performer,
@@ -52,16 +55,16 @@ def fetch_all():
                                   country=result['country_name'],
                                   latitude=result['latitude'],
                                   longitude=result['longitude'],
-                                  start_time=result['start_time'])
+                                  start_time=pytz.timezone(result['olson_path']).localize(
+                                      parse_datetime(result['start_time'])))
 
                     # We'll try to create every new event, our uniqueness constraint on eventful_id prevents duplicates.
                     try:
                         event.save()
-                        print("New event created.")
+                        print(event)
                     except IntegrityError:
                         print("Already exists.")
 
 
 def fetch(performer_name):
     pass
-

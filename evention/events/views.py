@@ -1,6 +1,8 @@
 import random
+import datetime
 
 from django.shortcuts import render
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
 from rest_framework import viewsets
@@ -43,7 +45,8 @@ class EventViewSet(viewsets.ModelViewSet):
         for like in user_likes:
             if like.liked:
                 performers.append(like.performer)
-        return Event.objects.filter(performer__in=performers)
+        today = datetime.datetime.today()
+        return Event.objects.filter(performer__in=performers).filter(Q(start_time__gte=today))
 
     def create(self, request, *args, **kwargs):
         raise PermissionDenied("Creating and updating events is not yet supported through the API")

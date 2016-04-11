@@ -46,7 +46,7 @@ def fetch_all():
                         use_event = True
 
                 if use_event:
-                    print(pytz.timezone(result['olson_path']))
+
                     event = Event(eventful_id=result['id'],
                                   title=result['title'],
                                   performer=performer,

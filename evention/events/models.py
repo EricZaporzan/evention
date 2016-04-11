@@ -19,6 +19,19 @@ class Event(models.Model):
         return self.performer.name + " in " + self.city + " on " + str(self.start_time)
 
 
+class IgnoredEvent(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    ignored = models.BooleanField(default=True)
+    event = models.ForeignKey('Event')
+    since = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        if self.ignored:
+            return self.owner.username + " is not interested in \"" + self.event.title + "\""
+        else:
+            return self.owner.username + " is interested in \"" + self.event.title + "\""
+
+
 class Likes(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
     liked = models.BooleanField(default=True)

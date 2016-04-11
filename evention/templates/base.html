@@ -78,6 +78,9 @@
     <div class="navbar navbar-default navbar-fixed-bottom hidden-xs">
       <div class="container">
         <p class="navbar-text">A site by <a class="navbar-link" href="http://ericzaporzan.com" target="_blank">Eric Zaporzan</a>.  Built with Django, Knockout, Bootstrap, and more.</p>
+        <div class="navbar-right">
+          {% block footer-branding %}{% endblock %}
+        </div>
       </div>
     </div>
 

@@ -22,8 +22,10 @@ def fetch_all():
                            settings.EVENTFUL_APPLICATION_KEY + '&category=' + category + \
                            '&keywords=' + requests.utils.quote(name) + \
                            '&date=Future&page_size=100&page_number=1'
-        print event_search_url
-        json_response = requests.get(event_search_url).json()
+        print(event_search_url)
+        response = requests.get(event_search_url)
+        response.encoding = 'utf-8'
+        json_response = response.json()
 
         # Parse the results. We need to make sure that our performer is playing this event or
         # in the list of acts at this event.
@@ -43,6 +45,7 @@ def fetch_all():
 
                 if use_event:
                     event = Event(eventful_id=result['id'],
+                                  title=result['title'],
                                   performer=performer,
                                   venue_name=result['venue_name'],
                                   city=result['city_name'],
@@ -54,9 +57,9 @@ def fetch_all():
                     # We'll try to create every new event, our uniqueness constraint on eventful_id prevents duplicates.
                     try:
                         event.save()
-                        print "New event created."
+                        print("New event created.")
                     except IntegrityError:
-                        print "Already exists."
+                        print("Already exists.")
 
 
 def fetch(performer_name):

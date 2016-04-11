@@ -46,7 +46,7 @@ class EventViewSet(viewsets.ModelViewSet):
             if like.liked:
                 performers.append(like.performer)
         today = datetime.datetime.today()
-        return Event.objects.filter(performer__in=performers).filter(Q(start_time__gte=today))
+        return Event.objects.filter(performer__in=performers).filter(Q(start_time__gte=today)).order_by('start_time')
 
     def create(self, request, *args, **kwargs):
         raise PermissionDenied("Creating and updating events is not yet supported through the API")

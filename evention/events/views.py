@@ -62,6 +62,28 @@ class IgnoredEventViewSet(viewsets.ModelViewSet):
         user = self.request.user
         return IgnoredEvent.objects.filter(owner=user)
 
+    def update(self, request, *args, **kwargs):
+        try:
+            ignored_event = IgnoredEvent.objects.get(event__id=request.data['id'],
+                                                     owner=request.user)
+            print(ignored_event)
+        except IgnoredEvent.DoesNotExist:
+            event = Event.objects.get(id=request.data['id'])
+            ignored_event = IgnoredEvent(event=event, owner=request.user)
+
+        if request.data['ignored'] == 'true':
+            ignored_event.ignored = True
+            response_string = 'Event successfully ignored'
+        elif request.data['ignored'] == 'false':
+            ignored_event.ignored = False
+            response_string = 'Event successfully unignored'
+        else:
+            response_string = 'Cannot ignore or unignore this event. ' \
+                              'Make sure to set \'ignored\' to either true or false'
+
+        ignored_event.save()
+        return Response({'status': response_string, 'id': ignored_event.id})
+
 
 class LikesViewSet(viewsets.ModelViewSet):
     queryset = Likes.objects.all()

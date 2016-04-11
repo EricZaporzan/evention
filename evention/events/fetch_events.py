@@ -50,19 +50,34 @@ def fetch(performer):
                 elif result['performers']['performer']['name'].lower() == name.lower():
                     use_event = True
             if use_event:
-                event = Event(eventful_id=result['id'],
-                              title=result['title'],
-                              performer=performer,
-                              venue_name=result['venue_name'],
-                              city=result['city_name'],
-                              country=result['country_name'],
-                              latitude=result['latitude'],
-                              longitude=result['longitude'],
-                              start_time=pytz.timezone(result['olson_path']).localize(
-                                  parse_datetime(result['start_time'])))
-                # We'll try to create every new event, our uniqueness constraint on eventful_id prevents duplicates.
                 try:
+                    event = Event.objects.get(eventful_id=result['id'])
+                    if event.modified < pytz.timezone('UTC').localize(parse_datetime(result['modified'])):
+                        event.eventful_id = result['id']
+                        event.title = result['title']
+                        event.performer = performer
+                        event.venue_name = result['venue_name']
+                        event.city = result['city_name']
+                        event.country = result['country_name']
+                        event.latitude = result['latitude']
+                        event.longitude = result['longitude']
+                        event.start_time = pytz.timezone(result['olson_path']).localize(
+                                         parse_datetime(result['start_time']))
+                        event.save()
+                        print(event)
+                    else:
+                        print("Event already exists and is up to date.")
+                except Event.DoesNotExist:
+                    event = Event(eventful_id=result['id'],
+                                  title=result['title'],
+                                  performer=performer,
+                                  venue_name=result['venue_name'],
+                                  city=result['city_name'],
+                                  country=result['country_name'],
+                                  latitude=result['latitude'],
+                                  longitude=result['longitude'],
+                                  start_time=pytz.timezone(result['olson_path']).localize(
+                                      parse_datetime(result['start_time'])))
+
                     event.save()
                     print(event)
-                except IntegrityError:
-                    print("Already exists.")

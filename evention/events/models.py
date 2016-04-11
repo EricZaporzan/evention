@@ -14,6 +14,7 @@ class Event(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     start_time = models.DateTimeField()
+    modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.performer.name + " in " + self.city + " on " + str(self.start_time)

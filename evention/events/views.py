@@ -83,7 +83,6 @@ class LikesViewSet(viewsets.ModelViewSet):
         if like.owner != request.user:
             raise PermissionDenied("Adding likes for different users not supported.")
 
-        print request.data['liked']
         if request.data['liked'] == 'true':
             like.liked = True
             response_string = 'Performer successfully liked'
@@ -101,6 +100,7 @@ class HomepageMediaViewSet(viewsets.ModelViewSet):
     queryset = HomepageMedia.objects.all()
     serializer_class = HomepageMediaSerializer
 
+    # Currently, returns a randomized ordering of all of the homepage videos.
     def get_queryset(self):
         try:
             return HomepageMedia.objects.order_by('?')

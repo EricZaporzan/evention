@@ -26,12 +26,14 @@
         method: 'GET',
         url: '{% url "api:homepage-media-list" %}',
         success: function(response) {
-          $("#youtube-hero").attr('src', response[0].embed_url);
-          $("#youtube-hero-text").html("Find " + response[0].band + " on Evention!");
-        },
-        error: function(response) {  // Default this to a set video on error.
-          $("#youtube-hero").attr('src', "https://www.youtube.com/embed/yjiJM_Daoa0");
-          $("#youtube-hero-text").html("Find " + "The Mountain Goats" + " on Evention!");
+          if(response.length > 0) {
+            $("#youtube-hero").attr('src', response[0].embed_url);
+            $("#youtube-hero-text").html("Find " + response[0].band + " on Evention!");
+          }
+          else {
+            $("#youtube-hero").attr('src', "https://www.youtube.com/embed/yjiJM_Daoa0");
+            $("#youtube-hero-text").html("Find " + "The Mountain Goats" + " on Evention!");
+          }
         }
     });
   });

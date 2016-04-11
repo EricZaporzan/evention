@@ -8,8 +8,8 @@ from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException, PermissionDenied, NotFound
 
-from .models import Event, Likes, Performer, HomepageMedia
-from .serializers import EventSerializer, LikesSerializer, HomepageMediaSerializer
+from .models import Event, IgnoredEvent, Likes, Performer, HomepageMedia
+from .serializers import EventSerializer, IgnoredEventSerializer, LikesSerializer, HomepageMediaSerializer
 
 
 # Django views
@@ -50,6 +50,17 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         raise PermissionDenied("Creating and updating events is not yet supported through the API")
+
+
+class IgnoredEventViewSet(viewsets.ModelViewSet):
+    queryset = IgnoredEvent.objects.all()
+    serializer_class = IgnoredEventSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('ignored', 'event', 'since')
+
+    def get_queryset(self):
+        user = self.request.user
+        return IgnoredEvent.objects.filter(owner=user)
 
 
 class LikesViewSet(viewsets.ModelViewSet):

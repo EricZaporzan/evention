@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Event, Likes, Performer, HomepageMedia
+from .models import Event, IgnoredEvent, Likes, Performer, HomepageMedia
 
 
 class PerformerSerializer(serializers.ModelSerializer):
@@ -22,8 +22,16 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('id', 'performer', 'venue_name', 'city',
+        fields = ('id', 'title', 'performer', 'venue_name', 'city',
                   'country', 'latitude', 'longitude', 'start_time')
+
+
+class IgnoredEventSerializer(serializers.ModelSerializer):
+    event = EventSerializer()
+
+    class Meta:
+        model = IgnoredEvent
+        fields = ('id', 'owner', 'ignored', 'event', 'since')
 
 
 class HomepageMediaSerializer(serializers.ModelSerializer):

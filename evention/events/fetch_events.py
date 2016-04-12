@@ -56,7 +56,6 @@ def fetch(performer):
                 else:
                     start_time = parse_datetime(result['start_time'])
 
-
                 try:
                     event = Event.objects.get(eventful_id=result['id'])
                     if event.modified < pytz.timezone('UTC').localize(parse_datetime(result['modified'])):

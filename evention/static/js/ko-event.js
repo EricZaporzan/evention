@@ -97,7 +97,7 @@ function MyEventsViewModel() {
 // Custom bindings
 ko.bindingHandlers.visibleElements = {
     update: function(element, valueAccessor, allBindings) {
-        va = ko.utils.unwrapObservable(valueAccessor());
+        var va = ko.utils.unwrapObservable(valueAccessor());
         var show = false;
         for (var i = 0; i < va.length; i++) {
             if (!va[i].ignored()) {
@@ -116,7 +116,7 @@ ko.bindingHandlers.visibleElements = {
 
 ko.bindingHandlers.noVisibleElements = {
     update: function(element, valueAccessor, allBindings) {
-        va = ko.utils.unwrapObservable(valueAccessor());
+        var va = ko.utils.unwrapObservable(valueAccessor());
         var show = false;
         for (var i = 0; i < va.length; i++) {
             if (!va[i].ignored()) {

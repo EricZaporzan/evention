@@ -84,6 +84,7 @@ function MyEventsViewModel() {
                 console.log(response);
                 item.id(response.id);
                 item.ignored(true);
+                item.notIgnored(false);
                 self.events.remove(item);
             },
             error: function (response) {

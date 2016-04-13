@@ -93,4 +93,43 @@ function MyEventsViewModel() {
     }
 }
 
+// Custom bindings
+ko.bindingHandlers.visibleElements = {
+    update: function(element, valueAccessor, allBindings) {
+        va = ko.utils.unwrapObservable(valueAccessor());
+        var show = false;
+        for (var i = 0; i < va.length; i++) {
+            if (!va[i].ignored()) {
+                show = true;
+                break;
+            }
+        }
+        if(show) {
+            $(element).css('display', '');
+        }
+        else {
+            $(element).css('display', 'none');
+        }
+    }
+};
+
+ko.bindingHandlers.noVisibleElements = {
+    update: function(element, valueAccessor, allBindings) {
+        va = ko.utils.unwrapObservable(valueAccessor());
+        var show = false;
+        for (var i = 0; i < va.length; i++) {
+            if (!va[i].ignored()) {
+                show = true;
+                break;
+            }
+        }
+        if(show) {
+            $(element).css('display', 'none');
+        }
+        else {
+            $(element).css('display', '');
+        }
+    }
+};
+
 ko.applyBindings(new MyEventsViewModel());

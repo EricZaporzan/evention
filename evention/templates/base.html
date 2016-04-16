@@ -45,6 +45,7 @@
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
             {% if request.user.is_authenticated %}
+              <li><a href="{% url 'events:find_bands' %}">Artists</a></li>
               <li><a href="{% url 'events:find_events' %}">Events</a></li>
             {% endif %}
           </ul>

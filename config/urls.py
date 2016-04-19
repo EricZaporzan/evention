@@ -11,7 +11,7 @@ from django.views import defaults as default_views
 from rest_framework import routers, serializers, viewsets
 
 from evention.users.views import UserViewSet
-from evention.events.views import EventViewSet, IgnoredEventViewSet, LikesViewSet, HomepageMediaViewSet
+from evention.events.views import EventViewSet, IgnoredEventViewSet, LikesViewSet, LikedCityViewSet, HomepageMediaViewSet
 
 
 router = routers.DefaultRouter()
@@ -19,6 +19,7 @@ router.register(r'users', UserViewSet)
 router.register(r'events', EventViewSet)
 router.register(r'ignored-events', IgnoredEventViewSet)
 router.register(r'likes', LikesViewSet, 'likes')
+router.register(r'liked-cities', LikedCityViewSet)
 router.register(r'homepage-videos', HomepageMediaViewSet, 'homepage-media')
 
 urlpatterns = [

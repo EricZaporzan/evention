@@ -10,8 +10,9 @@ from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException, PermissionDenied, NotFound
 
-from .models import Event, IgnoredEvent, Likes, Performer, HomepageMedia
-from .serializers import EventSerializer, IgnoredEventSerializer, LikesSerializer, HomepageMediaSerializer
+from .models import Event, IgnoredEvent, Likes, Performer, LikedCity, HomepageMedia
+from .serializers import EventSerializer, IgnoredEventSerializer, LikesSerializer, \
+                         LikedCitySerializer, HomepageMediaSerializer
 
 
 # Django views
@@ -130,6 +131,42 @@ class LikesViewSet(viewsets.ModelViewSet):
         like.save()
 
         return Response({'status': response_string, 'id': like.id})
+
+
+class LikedCityViewSet(viewsets.ModelViewSet):
+    queryset = LikedCity.objects.all()
+    serializer_class = LikedCitySerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the liked cities
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return LikedCity.objects.filter(owner=user)
+
+    # Handles PUT requests.
+    def update(self, request, *args, **kwargs):
+        try:  # In case of un-liking an existing city, or re-liking an old like.
+            liked_city = LikedCity.objects.get(id=request.data['id'])
+
+        except LikedCity.DoesNotExist:  # Else create a new like
+            liked_city = LikedCity(owner=request.user)
+
+        if liked_city.owner != request.user:
+            raise PermissionDenied("Adding likes for different users not supported.")
+
+        if request.data['liked'] == 'true':
+            liked_city.liked = True
+            response_string = 'City successfully liked'
+        elif request.data['liked'] == 'false':
+            liked_city.liked = False
+            response_string = 'City successfully unliked'
+        else:
+            response_string = 'Cannot like or unlike this city. Make sure to set \'liked\' to either true or false'
+        liked_city.save()
+
+        return Response({'status': response_string, 'id': liked_city.id})
 
 
 class HomepageMediaViewSet(viewsets.ModelViewSet):

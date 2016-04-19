@@ -56,6 +56,22 @@ class Performer(models.Model):
         return self.name
 
 
+class LikedCity(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    liked = models.BooleanField(default=True)
+    name = models.CharField(max_length=256)
+    since = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'liked cities'
+
+    def __str__(self):
+        if self.liked:
+            return self.owner.username + " is interested in \"" + self.name + "\""
+        else:
+            return self.owner.username + " is not interested in \"" + self.name + "\""
+
+
 # Model for displaying videos on the homepage
 class HomepageMedia(models.Model):
     band = models.CharField(max_length=256)

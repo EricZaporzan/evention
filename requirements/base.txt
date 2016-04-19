@@ -43,3 +43,6 @@ redis>=2.10.0
 # django-rest-framework
 djangorestframework==3.3.0
 django-filter==0.13.0
+
+# Requests, for backend API calls
+requests==2.9.1

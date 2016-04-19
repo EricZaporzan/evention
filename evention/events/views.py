@@ -31,6 +31,11 @@ def find_sports(request):
     return render(request, "events/find_sports.html", {})
 
 
+@login_required()
+def find_cities(request):
+    return render(request, "events/find_cities.html", {})
+
+
 # REST framework
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()

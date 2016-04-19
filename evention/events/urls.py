@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^$', views.find_events, name="find_events"),
     url(r'discover-artists/$', views.find_bands, name="find_bands"),
     url(r'discover-sports/$', views.find_sports, name="find_sports"),
+    url(r'cities/$', views.find_cities, name="find_cities")
 ]

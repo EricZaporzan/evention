@@ -86,7 +86,7 @@ The testing framework runs Django, Celery (if enabled), Postgres, HitchSMTP (a m
 Deployment
 ----------
 
-We provide tools and instructions for deploying using Docker and Heroku.
+Deploying using Heroku.
 
 Heroku
 ^^^^^^
@@ -94,13 +94,3 @@ Heroku
 .. image:: https://www.herokucdn.com/deploy/button.png
     :target: https://heroku.com/deploy
 
-See detailed `cookiecutter-django Heroku documentation`_.
-
-.. _`cookiecutter-django Heroku documentation`: http://cookiecutter-django.readthedocs.org/en/latest/deployment-on-heroku.html
-
-Docker
-^^^^^^
-
-See detailed `cookiecutter-django Docker documentation`_.
-
-.. _`cookiecutter-django Docker documentation`: http://cookiecutter-django.readthedocs.org/en/latest/deployment-with-docker.html

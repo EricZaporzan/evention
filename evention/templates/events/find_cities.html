@@ -18,7 +18,7 @@
     <h2>What <span data-bind="visibleElements: favouriteCities">other </span>cities do you like?</h2>
     <div>
       <input id="city-search" type="search" class="form-control" data-bind="textInput: citySearch" placeholder="Start typing..." />
-      <p>Search powered by <a href="https://google.com" target="_blank">Google Places</a>.</p>
+      <img src="{% static 'images/google-white.png' %}" class="visible-xs">
     </div>
 
     <div data-bind="foreach: cityResults, visible: cityResults().length > 0">
@@ -42,4 +42,8 @@
   });
 </script>
 
+{% endblock %}
+
+{% block footer-branding %}
+<img src="{% static 'images/google-black.png' %}" class="google-footer">
 {% endblock %}

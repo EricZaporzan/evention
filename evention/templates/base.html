@@ -47,6 +47,7 @@
             {% if request.user.is_authenticated %}
               <li><a href="{% url 'events:find_bands' %}">Artists</a></li>
               <li><a href="{% url 'events:find_events' %}">Events</a></li>
+              <li><a href="{% url 'events:find_cities' %}">Cities</a></li>
             {% endif %}
           </ul>
           <ul class="nav navbar-nav navbar-right">

@@ -41,7 +41,7 @@ function CitySearchViewModel() {
                 if (!alreadyLiked) {
                     self.cityResults.push(new City({
                         likeId: likeId,
-                        name: results[i].terms[0].value,
+                        name: results[i].description,
                         liked: false
                     }));
                 }

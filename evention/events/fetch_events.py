@@ -2,7 +2,6 @@ import requests
 import pytz
 
 from django.conf import settings
-from django.db import IntegrityError
 from django.utils.dateparse import parse_datetime
 
 from .models import Performer, Event
@@ -19,7 +18,6 @@ def fetch_all():
 # This fetches the new events of a single performer. This should be run when a new performer is added to the model.
 def fetch(performer_name):
     performer = Performer.objects.get(name=performer_name)
-
     name = performer.name
     category = ''
     if performer.type == 'artist':
@@ -43,7 +41,7 @@ def fetch(performer_name):
         for result in json_response['events']['event']:
             use_event = False
             if result['performers'] is not None:
-                # This might be a list, if there are multiple performers, or it might be a dict.
+                # This might be a list, if there are multiple performers, or it might be a dict, if there's only one.
                 if type(result['performers']['performer']) is list:
                     for event_performer in result['performers']['performer']:
                         if event_performer['name'].lower() == name.lower():
@@ -51,13 +49,13 @@ def fetch(performer_name):
                             break
                 elif result['performers']['performer']['name'].lower() == name.lower():
                     use_event = True
+            # The use_event flag is True only if the relevant performer is actually a part of the event.
             if use_event:
                 if result['olson_path'] is not None:
                     start_time = pytz.timezone(result['olson_path']).localize(
                                          parse_datetime(result['start_time']))
                 else:
                     start_time = parse_datetime(result['start_time'])
-
                 try:
                     event = Event.objects.get(eventful_id=result['id'])
                     if event.modified < pytz.timezone('UTC').localize(parse_datetime(result['modified'])):
@@ -70,7 +68,6 @@ def fetch(performer_name):
                         event.latitude = result['latitude']
                         event.longitude = result['longitude']
                         event.start_time = start_time
-
                         event.save()
                         print(event)
                     else:

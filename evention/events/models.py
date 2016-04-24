@@ -56,10 +56,25 @@ class Performer(models.Model):
         return self.name
 
 
+class City(models.Model):
+    code = models.CharField(max_length=64, unique=True)
+    city = models.CharField(max_length=256)
+    region = models.CharField(max_length=256)  # i.e. province or territory
+    country = models.CharField(max_length=256)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+
+    class Meta:
+        verbose_name_plural = 'cities'
+
+    def __str__(self):
+        return self.city
+
+
 class LikedCity(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
     liked = models.BooleanField(default=True)
-    name = models.CharField(max_length=256)
+    city = models.ForeignKey('City')
     since = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -67,9 +82,9 @@ class LikedCity(models.Model):
 
     def __str__(self):
         if self.liked:
-            return self.owner.username + " is interested in \"" + self.name + "\""
+            return self.owner.username + " is interested in \"" + self.city.city + "\""
         else:
-            return self.owner.username + " is not interested in \"" + self.name + "\""
+            return self.owner.username + " is not interested in \"" + self.city.city + "\""
 
 
 # Model for displaying videos on the homepage

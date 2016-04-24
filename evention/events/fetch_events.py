@@ -13,11 +13,13 @@ from .models import Performer, Event
 def fetch_all():
     all_performers = Performer.objects.all()
     for performer in all_performers:
-        fetch(performer)
+        fetch(performer.name)
 
 
 # This fetches the new events of a single performer. This should be run when a new performer is added to the model.
-def fetch(performer):
+def fetch(performer_name):
+    performer = Performer.objects.get(name=performer_name)
+
     name = performer.name
     category = ''
     if performer.type == 'artist':

@@ -17,7 +17,7 @@ def fetch_all():
 
 # This fetches the new events of a single performer. This should be run when a new performer is added to the model.
 def fetch(performer_name):
-    performer = Performer.objects.get(name=performer_name)
+    performer = Performer.objects.get(name__iexact=performer_name)
     name = performer.name
     category = ''
     if performer.type == 'artist':

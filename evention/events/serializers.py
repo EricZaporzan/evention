@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Event, IgnoredEvent, Likes, Performer, LikedCity, HomepageMedia
+from .models import Event, IgnoredEvent, Likes, Performer, City, LikedCity, HomepageMedia
 
 
 class PerformerSerializer(serializers.ModelSerializer):
@@ -34,10 +34,18 @@ class IgnoredEventSerializer(serializers.ModelSerializer):
         fields = ('id', 'owner', 'ignored', 'event', 'since')
 
 
+class CitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ('id', 'code', 'city', 'region', 'country', 'latitude', 'longitude')
+
+
 class LikedCitySerializer(serializers.ModelSerializer):
+    city = CitySerializer()
+
     class Meta:
         model = LikedCity
-        fields = ('id', 'owner', 'name', 'liked', 'since')
+        fields = ('id', 'owner', 'city', 'liked', 'since')
 
 
 class HomepageMediaSerializer(serializers.ModelSerializer):

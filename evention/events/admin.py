@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Event, IgnoredEvent, Likes, Performer, LikedCity, HomepageMedia
+from .models import Event, IgnoredEvent, Likes, Performer, City, LikedCity, HomepageMedia
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -19,8 +19,12 @@ class PerformerAdmin(admin.ModelAdmin):
     list_display = ("name", "type", "description")
 
 
+class CityAdmin(admin.ModelAdmin):
+    list_display = ("city", "region", "country")
+
+
 class LikedCityAdmin(admin.ModelAdmin):
-    list_display = ("owner", "name", "liked")
+    list_display = ("owner", "city", "liked")
 
 
 class HomepageMediaAdmin(admin.ModelAdmin):
@@ -31,6 +35,7 @@ admin.site.register(Event, EventAdmin)
 admin.site.register(IgnoredEvent, IgnoredEventAdmin)
 admin.site.register(Likes, LikesAdmin)
 admin.site.register(Performer, PerformerAdmin)
+admin.site.register(City, CityAdmin)
 admin.site.register(LikedCity, LikedCityAdmin)
 admin.site.register(HomepageMedia, HomepageMediaAdmin)
 

@@ -59,7 +59,7 @@ class Performer(models.Model):
 class City(models.Model):
     code = models.CharField(max_length=64, unique=True)
     city = models.CharField(max_length=256)
-    region = models.CharField(max_length=256)  # i.e. province or territory
+    region = models.CharField(max_length=256, blank=True)  # i.e. province or territory, many countries don't have these
     country = models.CharField(max_length=256)
     latitude = models.FloatField()
     longitude = models.FloatField()

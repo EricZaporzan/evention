@@ -28,7 +28,6 @@ function CitySearchViewModel() {
                         jQuery.getJSON(
                             "http://gd.geobytes.com/GetCityDetails?callback=?&fqcn="+data[i],
                             function (detail) {
-                                console.log(detail);
                                 var favouriteCities = self.favouriteCities();
                                 var alreadyLiked = false;
                                 var likeId = -1;

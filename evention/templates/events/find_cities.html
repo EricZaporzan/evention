@@ -24,7 +24,12 @@
     <div data-bind="foreach: cityResults, visible: cityResults().length > 0">
       <div data-bind="visible: disliked" class="media">
         <div class="media-body">
-          <h4 data-bind="text: name" class="media-heading"></h4>
+          <h4 class="media-heading">
+            <span data-bind="text:city"></span>,
+            <span data-bind="visible: region().length > 0">
+              <span data-bind="text:region"></span>,
+            </span>
+            <span data-bind="text:country"></span></h4>
           <p><a data-bind="click: $parent.likeCity.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-success"><span class="glyphicon glyphicon-plus"></span></span> Add to my list</a></p>
         </div>
       </div>

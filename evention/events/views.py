@@ -10,7 +10,7 @@ from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException, PermissionDenied, NotFound
 
-from .models import Event, IgnoredEvent, Likes, Performer, LikedCity, HomepageMedia
+from .models import Event, IgnoredEvent, Likes, Performer, City, LikedCity, HomepageMedia
 from .serializers import EventSerializer, IgnoredEventSerializer, LikesSerializer, \
                          LikedCitySerializer, HomepageMediaSerializer
 
@@ -157,6 +157,17 @@ class LikedCityViewSet(viewsets.ModelViewSet):
 
         except LikedCity.DoesNotExist:  # Else create a new like
             liked_city = LikedCity(owner=request.user)
+            try:
+                city = City.objects.get(code=request.data['code'])
+            except City.DoesNotExist:
+                city = City(code=request.data['code'],
+                            city=request.data['city'],
+                            region=request.data['region'],
+                            country=request.data['country'],
+                            latitude=request.data['latitude'],
+                            longitude=request.data['longitude'])
+                city.save()
+            liked_city.city = city
 
         if liked_city.owner != request.user:
             raise PermissionDenied("Adding likes for different users not supported.")

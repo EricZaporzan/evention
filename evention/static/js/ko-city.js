@@ -13,7 +13,7 @@ function City(data) {
 function CitySearchViewModel() {
     var self = this;
     self.citySearch = ko.observable('');
-    self.geobytesSearch = ko.pureComputed(this.citySearch).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 150 } });
+    self.geobytesSearch = ko.pureComputed(this.citySearch).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 750 } });
     self.cityResults = ko.observableArray([]);
     self.favouriteCities = ko.observableArray([]);
 

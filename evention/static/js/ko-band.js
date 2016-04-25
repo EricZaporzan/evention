@@ -38,6 +38,7 @@ function BandSearchViewModel() {
                                 }
                                 else {
                                     likeId = favouriteBands[j].likeId();
+                                    break;
                                 }
                             }
                         }

@@ -1,6 +1,11 @@
 function City(data) {
     this.likeId = ko.observable(data.likeId);
-    this.name = ko.observable(data.name);
+    this.code = ko.observable(data.code);
+    this.city = ko.observable(data.city);
+    this.region = ko.observable(data.region);
+    this.country = ko.observable(data.country);
+    this.latitude = ko.observable(data.latitude);
+    this.longitude = ko.observable(data.longitude);
     this.liked = ko.observable(data.liked);
     this.disliked = ko.observable(!data.liked);
 }
@@ -8,68 +13,132 @@ function City(data) {
 function CitySearchViewModel() {
     var self = this;
     self.citySearch = ko.observable('');
-    self.googleSearch = ko.pureComputed(this.citySearch).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 150 } });
+    self.geobytesSearch = ko.pureComputed(this.citySearch).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 150 } });
     self.cityResults = ko.observableArray([]);
     self.favouriteCities = ko.observableArray([]);
 
-    // Each time there is a delay in typing, query Spotify for the list of artists returned by the search query.
-    self.googleSearch.subscribe(function(newValue) {
+    self.geobytesSearch.subscribe(function(newValue) {
         self.cityResults.removeAll();
         if (newValue != "") {
-            var service = new google.maps.places.AutocompleteService();
-            service.getQueryPredictions({ input: newValue, options: {type: 'cities'}}, self.callback);
+            jQuery.getJSON(
+                "http://gd.geobytes.com/AutoCompleteCity?callback=?&q="+newValue,
+                function (data) {
+                    var totalDisplayed = 0;
+                    for (var i = 0; i < Math.min(10, data.length); i++) {
+                        jQuery.getJSON(
+                            "http://gd.geobytes.com/GetCityDetails?callback=?&fqcn="+data[i],
+                            function (detail) {
+                                console.log(detail);
+                                var favouriteCities = self.favouriteCities();
+                                var alreadyLiked = false;
+                                var likeId = -1;
+
+                                for (var j = 0; j < favouriteCities.length; j++) {
+                                    if (favouriteCities[j].code() == detail.geobyteslocationcode) {
+                                        if (favouriteCities[j].liked()) {
+                                            alreadyLiked = true;
+                                            break;
+                                        }
+                                        else {
+                                            likeId = favouriteCities[j].likeId();
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (!alreadyLiked) {
+                                    self.cityResults.push(new City({
+                                        likeId: likeId,
+                                        code: detail.geobyteslocationcode,
+                                        city: detail.geobytescity,
+                                        region: detail.geobytesregion,
+                                        country: detail.geobytescountry,
+                                        latitude: detail.geobyteslatitude,
+                                        longitude: detail.geobyteslongitude,
+                                        liked: false
+                                    }));
+                                }
+                            }
+                        );
+                    }
+
+                }
+            );
         }
     });
 
-    self.callback = function(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
-                var alreadyLiked = false;
-                var likeId = -1;
-                var favouriteCities = self.favouriteCities();
-                for (var j = 0; j < favouriteCities.length; j++) {
-                    if (favouriteCities[j].name() == results[j].terms[0].value) {
-                        if (favouriteCities[j].liked()) {
-                            alreadyLiked = true;
-                            break;
-                        }
-                        else {
-                            likeId = favouriteCities[j].likeId();
-                        }
-                    }
-                }
-                if (!alreadyLiked) {
-                    self.cityResults.push(new City({
-                        likeId: likeId,
-                        name: results[i].description,
-                        liked: false
-                    }));
-                }
+    $.ajax({
+        method: 'GET',
+        url: '/api/liked-cities/',
+        success: function(response) {
+            for (var i=0; i < response.length; i++) {
+                self.favouriteCities.push(new City({likeId: response[i].id,
+                                                    code: response[i].city.code,
+                                                    city: response[i].city.city,
+                                                    region: response[i].city.region,
+                                                    country: response[i].city.country,
+                                                    latitude: response[i].city.latitude,
+                                                    longitude: response[i].city.longitude,
+                                                    liked: response[i].liked}));
             }
         }
-    };
+    });
+
 
     self.likeCity = function(username, item) {
         console.log(item);
         $.ajax({
             method: 'PUT',
-            url: '/api/likes/' + item.likeId() + '/',
+            url: '/api/liked-cities/' + item.likeId() + '/',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken')
             },
             data: {
-                id: item.likeId(),
                 owner: username,
-                liked: true,
-                performer: item.name,
-                image: item.image
+                id: item.likeId(),
+                code: item.code(),
+                city: item.city(),
+                region: item.region(),
+                country: item.country(),
+                latitude: item.latitude(),
+                longitude: item.longitude(),
+                liked: true
             },
             success: function (response) {
                 console.log(response);
                 item.likeId(response.id);
                 item.liked(true);
-                self.bandResults.remove(item);
-                self.favouriteBands.push(item);
+                self.cityResults.remove(item);
+                self.favouriteCities.push(item);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    };
+
+    self.unlikeCity = function(username, item) {
+        console.log(item);
+        $.ajax({
+            method: 'PUT',
+            url: '/api/liked-cities/' + item.likeId() + '/',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            data: {
+                owner: username,
+                id: item.likeId(),
+                code: item.code(),
+                city: item.city(),
+                region: item.region(),
+                country: item.country(),
+                latitude: item.latitude(),
+                longitude: item.longitude(),
+                liked: false
+            },
+            success: function (response) {
+                console.log(response);
+                item.likeId(response.id);
+                item.liked(false);
             },
             error: function (response) {
                 console.log(response);
@@ -77,6 +146,7 @@ function CitySearchViewModel() {
         });
     };
 }
+
 
 
 

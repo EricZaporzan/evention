@@ -4,6 +4,18 @@ function IgnoredEvent(data) {
     this.eventId = ko.observable(data.eventId)
 }
 
+function City(data) {
+    this.likeId = ko.observable(data.likeId);
+    this.placeId = ko.observable(data.placeId);
+    this.city = ko.observable(data.city);
+    this.region = ko.observable(data.region);
+    this.country = ko.observable(data.country);
+    this.latitude = ko.observable(data.latitude);
+    this.longitude = ko.observable(data.longitude);
+    this.liked = ko.observable(data.liked);
+    this.disliked = ko.observable(!data.liked);
+}
+
 function MyEvent(data) {
     this.id = ko.observable(data.id);
     this.title = ko.observable(data.title);
@@ -17,12 +29,17 @@ function MyEvent(data) {
     this.startTime = ko.observable(data.startTime);
     this.ignored = ko.observable(data.ignored);
     this.notIgnored = ko.observable(!data.ignored);
+
+    this.becauseYouLiked = ko.observable(data.becauseYouLiked);
 }
 
 function MyEventsViewModel() {
     var self = this;
     self.ignoredEvents = ko.observableArray([]);
     self.events = ko.observableArray([]);
+    self.closebyEvents = ko.observableArray([]);
+
+    self.favouriteCities = ko.observableArray([]);
 
     // Grabbing the ignored events list.
     $.ajax({
@@ -52,7 +69,8 @@ function MyEventsViewModel() {
                         break;
                     }
                 }
-                self.events.push(new MyEvent({id: response[i].id,
+
+                var newEvent = new MyEvent({id: response[i].id,
                                             title: response[i].title,
                                             performerName: response[i].performer.name,
                                             performerImage: response[i].performer.image,
@@ -62,7 +80,37 @@ function MyEventsViewModel() {
                                             latitude: response[i].latitude,
                                             longitude: response[i].longitude,
                                             startTime: response[i].start_time,
-                                            ignored: ignored }));
+                                            ignored: ignored });
+
+                self.events.push(newEvent);
+
+                var favouriteCities = self.favouriteCities();
+                for (var k = 0; k < favouriteCities.length; k++) {
+                    if (favouriteCities[k].liked()) {
+                        var distanceBetween = getDistanceFromLatLonInKm(newEvent.latitude(), newEvent.longitude(), favouriteCities[k].latitude(), favouriteCities[k].longitude());
+                        if (distanceBetween < 50.0) {
+                            newEvent.becauseYouLiked = favouriteCities[k].city;
+                            self.closebyEvents.push(newEvent);
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    $.ajax({
+        method: 'GET',
+        url: '/api/liked-cities/',
+        success: function(response) {
+            for (var i=0; i < response.length; i++) {
+                self.favouriteCities.push(new City({likeId: response[i].id,
+                                                    placeId: response[i].city.code,
+                                                    city: response[i].city.city,
+                                                    region: response[i].city.region,
+                                                    country: response[i].city.country,
+                                                    latitude: response[i].city.latitude,
+                                                    longitude: response[i].city.longitude,
+                                                    liked: response[i].liked}));
             }
         }
     });

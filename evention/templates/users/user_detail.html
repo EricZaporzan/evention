@@ -29,8 +29,20 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12">
-      <h3>{{ object.username }}'s likes</h3>
+    <div class="col-md-6 col-sm-12">
+      <h3>{{ object.username }}'s favourite cities {% if object == request.user %}<small><a href="{% url 'events:find_cities' %}">(Edit)</a></small>{% endif %}</h3>
+      {% if cities.all %}
+      <ul class="list-group">
+        {% for city in cities %}
+          <li class="list-group-item">{{ city.city }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <p>{{ object.username }} apparently doesn't want to go anywhere.</p>
+      {% endif %}
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <h3>{{ object.username }}'s likes {% if object == request.user %}<small><a href="{% url 'events:find_bands' %}">(Edit)</a></small>{% endif %}</h3>
       {% if likes.all %}
         {% for like in likes %}
           <div class="media">

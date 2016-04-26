@@ -9,7 +9,7 @@ from rest_framework import viewsets
 
 from .models import User
 from .serializers import UserSerializer
-from evention.events.models import Likes
+from evention.events.models import Likes, LikedCity
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -21,6 +21,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(UserDetailView, self).get_context_data(**kwargs)
         context['likes'] = Likes.objects.filter(owner=self.request.user, liked=True)
+        context['cities'] = LikedCity.objects.filter(owner=self.request.user, liked=True)
         return context
 
 

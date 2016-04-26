@@ -32,7 +32,7 @@
 
     <ul class="list-group" data-bind="foreach: cityResults, visible: cityResults().length > 0">
       <li data-bind="visible: disliked" class="list-group-item">
-        <span data-bind="text:city"></span>,
+        <span data-bind="text:city()"></span>,
         <span data-bind="visible: region().length > 0">
           <span data-bind="text:region"></span>,
         </span>

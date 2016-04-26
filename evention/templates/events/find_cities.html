@@ -29,6 +29,7 @@
     <h2>What <span data-bind="visibleElements: favouriteCities">other </span>cities do you want to visit?</h2>
     <div>
       <input id="city-search" type="search" class="form-control" data-bind="textInput: citySearch" placeholder="Start typing..." />
+      <img src="{% static 'images/google-white.png' %}" class="visible-xs">
     </div>
 
     <ul class="list-group" data-bind="foreach: cityResults, visible: cityResults().length > 0">
@@ -54,4 +55,8 @@
   });
 </script>
 
+{% endblock %}
+
+{% block footer-branding %}
+<img src="{% static 'images/google-black.png' %}" class="google-footer">
 {% endblock %}

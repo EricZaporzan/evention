@@ -38,7 +38,12 @@ def fetch(performer_name):
     # Parse the results. We need to make sure that our performer is playing this event or
     # in the list of acts at this event.
     if int(json_response['total_items']) > 0:
-        for result in json_response['events']['event']:
+        if type(json_response['events']['event']) is list:
+            response_list = json_response['events']['event']
+        else:
+            response_list = [json_response['events']['event'],]
+
+        for result in response_list:
             use_event = False
             if result['performers'] is not None:
                 # This might be a list, if there are multiple performers, or it might be a dict, if there's only one.

@@ -53,8 +53,6 @@ function MyEventsViewModel() {
     ]);
     self.selectedSection(self.sections()[0]);
 
-    console.log(self.selectedSection());
-
     // Grabbing the ignored events list.
     $.ajax({
         method: 'GET',

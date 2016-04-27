@@ -29,8 +29,14 @@ function MyEvent(data) {
     this.startTime = ko.observable(data.startTime);
     this.ignored = ko.observable(data.ignored);
     this.notIgnored = ko.observable(!data.ignored);
-
     this.becauseYouLiked = ko.observable(data.becauseYouLiked);
+}
+
+function Section(name, selected) {
+    this.name = name;
+    this.isSelected = ko.computed(function() {
+       return this === selected();
+    }, this);
 }
 
 function MyEventsViewModel() {
@@ -38,8 +44,16 @@ function MyEventsViewModel() {
     self.ignoredEvents = ko.observableArray([]);
     self.events = ko.observableArray([]);
     self.closebyEvents = ko.observableArray([]);
-
     self.favouriteCities = ko.observableArray([]);
+
+    self.selectedSection = ko.observable();
+    self.sections = ko.observableArray([
+        new Section('All events', self.selectedSection),
+        new Section('Events near my favourite cities', self.selectedSection)
+    ]);
+    self.selectedSection(self.sections()[0]);
+
+    console.log(self.selectedSection());
 
     // Grabbing the ignored events list.
     $.ajax({

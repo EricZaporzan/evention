@@ -60,5 +60,9 @@ body {
 }
 
 .google-footer {
-    margin-top: 15px;
+  margin-top: 15px;
+}
+
+.events-navbar {
+  margin-bottom: 10px;
 }

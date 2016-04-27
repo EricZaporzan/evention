@@ -29,7 +29,10 @@
     </div>
 
     <div data-bind="visible: selectedSection().name === 'all'">
-      <p data-bind="noVisibleElements: events">Looks like there's nothing here... add your favourite bands and musicians <a href="{% url 'events:find_bands' %}">here</a>!</p>
+      <p data-bind="noVisibleElements: events">
+        Looks like there's nothing here... add your favourite bands and musicians <a href="{% url 'events:find_bands' %}">here</a>!
+        And add the cities you want to visit <a href="{% url 'events:find_cities' %}">here</a>!
+      </p>
       <div data-bind="foreach: events">
         <div data-bind="visible: notIgnored" class="media">
           <div class="media-left media-middle">
@@ -44,7 +47,10 @@
     </div>
 
     <div data-bind="visible: selectedSection().name === 'near'">
-      <p data-bind="noVisibleElements: closebyEvents">Looks like there's nothing here... add your favourite bands and musicians <a href="{% url 'events:find_bands' %}">here</a>!</p>
+      <p data-bind="noVisibleElements: closebyEvents">
+        Looks like there's nothing here... add your favourite bands and musicians <a href="{% url 'events:find_bands' %}">here</a>!
+        And add the cities you want to visit <a href="{% url 'events:find_cities' %}">here</a>!
+      </p>
       <div data-bind="foreach: closebyEvents">
         <div data-bind="visible: notIgnored" class="media">
           <div class="media-left media-middle">

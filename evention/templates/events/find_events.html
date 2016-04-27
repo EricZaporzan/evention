@@ -22,13 +22,13 @@
       <ul class="nav nav-tabs" data-bind="foreach: sections">
         <li data-bind="css: { active: isSelected }">
           <a href="#" data-bind="click: $parent.selectedSection">
-            <span data-bind="text: name"></span>
+            <span data-bind="text: tabName"></span>
           </a>
         </li>
       </ul>
     </div>
 
-    <div data-bind="visible: selectedSection().name === 'All events'">
+    <div data-bind="visible: selectedSection().name === 'all'">
       <p data-bind="noVisibleElements: events">Looks like there's nothing here... add your favourite bands and musicians <a href="{% url 'events:find_bands' %}">here</a>!</p>
       <div data-bind="foreach: events">
         <div data-bind="visible: notIgnored" class="media">
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div data-bind="visible: selectedSection().name === 'Events near my favourite cities'">
+    <div data-bind="visible: selectedSection().name === 'near'">
       <p data-bind="noVisibleElements: closebyEvents">Looks like there's nothing here... add your favourite bands and musicians <a href="{% url 'events:find_bands' %}">here</a>!</p>
       <div data-bind="foreach: closebyEvents">
         <div data-bind="visible: notIgnored" class="media">

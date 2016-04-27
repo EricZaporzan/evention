@@ -32,8 +32,9 @@ function MyEvent(data) {
     this.becauseYouLiked = ko.observable(data.becauseYouLiked);
 }
 
-function Section(name, selected) {
+function Section(name, tabName, selected) {
     this.name = name;
+    this.tabName = tabName;
     this.isSelected = ko.computed(function() {
        return this === selected();
     }, this);
@@ -48,8 +49,8 @@ function MyEventsViewModel() {
 
     self.selectedSection = ko.observable();
     self.sections = ko.observableArray([
-        new Section('Events near my favourite cities', self.selectedSection),
-        new Section('All events', self.selectedSection)
+        new Section('near', 'Events near my favourite cities', self.selectedSection),
+        new Section('all', 'All events', self.selectedSection)
     ]);
     self.selectedSection(self.sections()[0]);
 

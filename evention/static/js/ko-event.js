@@ -48,8 +48,8 @@ function MyEventsViewModel() {
 
     self.selectedSection = ko.observable();
     self.sections = ko.observableArray([
-        new Section('All events', self.selectedSection),
-        new Section('Events near my favourite cities', self.selectedSection)
+        new Section('Events near my favourite cities', self.selectedSection),
+        new Section('All events', self.selectedSection)
     ]);
     self.selectedSection(self.sections()[0]);
 

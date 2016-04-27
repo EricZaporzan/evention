@@ -3,7 +3,7 @@
 {% block content %}
 
 <h2>Welcome to Evention!</h2>
-<p>Music, near and far, at your fingertips.</p>
+<p>Music, near and far, at your fingertips. <a href="{% url 'about' %}">More info</a>.</p>
 <div>
   <a href="{% url 'events:find_bands' %}" class="btn btn-success">Find artists</a>
   <!--<a href="{% url 'events:find_sports' %}" class="btn btn-success">Find sports (coming soon)</a>-->

@@ -54,6 +54,8 @@ function MyEventsViewModel() {
     ]);
     self.selectedSection(self.sections()[0]);
 
+    self.isLoading = ko.observable(true);
+
     // Grabbing the ignored events list.
     $.ajax({
         method: 'GET',
@@ -108,9 +110,11 @@ function MyEventsViewModel() {
                     }
                 }
             }
+            self.isLoading(false);
         }
     });
 
+    // Grabbing the liked cities for the current user.
     $.ajax({
         method: 'GET',
         url: '/api/liked-cities/',

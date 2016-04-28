@@ -28,37 +28,40 @@
       </ul>
     </div>
 
-    <div data-bind="visible: selectedSection().name === 'all'">
-      <p data-bind="noVisibleElements: events">
-        Looks like there's nothing here... add your favourite bands and musicians <a href="{% url 'events:find_bands' %}">here</a>!
-        And add the cities you want to visit <a href="{% url 'events:find_cities' %}">here</a>!
-      </p>
-      <div data-bind="foreach: events">
-        <div data-bind="visible: notIgnored" class="media">
-          <div class="media-left media-middle">
-            <img width="200px" data-bind="attr:{src:performerImage}" class="media-object">
-          </div>
-          <div class="media-body">
-            <h4 class="media-heading"><!--ko text: performerName--><!--/ko--> in <!--ko text: city--><!--/ko--> on <!--ko text: moment(startTime()).format('LL')--><!--/ko-->. </h4>
-            <p><a data-bind="click: $parent.ignoreEvent.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span> Not interested</a></p>
+    <img data-bind="visible: isLoading" width="25px" class="loading-spinner img-responsive" src="{% static 'images/loading-spinner.gif' %}">
+    <div data-bind="visible: !isLoading()">
+      <div data-bind="visible: selectedSection().name === 'all'">
+        <p data-bind="noVisibleElements: events">
+          Looks like there's nothing here... add your favourite bands and musicians <a href="{% url 'events:find_bands' %}">here</a>!
+          And add the cities you want to visit <a href="{% url 'events:find_cities' %}">here</a>!
+        </p>
+        <div data-bind="foreach: events">
+          <div data-bind="visible: notIgnored" class="media">
+            <div class="media-left media-middle">
+              <img width="200px" data-bind="attr:{src:performerImage}" class="media-object">
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading"><!--ko text: performerName--><!--/ko--> in <!--ko text: city--><!--/ko--> on <!--ko text: moment(startTime()).format('LL')--><!--/ko-->. </h4>
+              <p><a data-bind="click: $parent.ignoreEvent.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span> Not interested</a></p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div data-bind="visible: selectedSection().name === 'near'">
-      <p data-bind="noVisibleElements: closebyEvents">
-        Looks like there's nothing here... add your favourite bands and musicians <a href="{% url 'events:find_bands' %}">here</a>!
-        And add the cities you want to visit <a href="{% url 'events:find_cities' %}">here</a>!
-      </p>
-      <div data-bind="foreach: closebyEvents">
-        <div data-bind="visible: notIgnored" class="media">
-          <div class="media-left media-middle">
-            <img width="200px" data-bind="attr:{src:performerImage}" class="media-object">
-          </div>
-          <div class="media-body">
-            <h4 class="media-heading"><!--ko text: performerName--><!--/ko--> in <!--ko text: city--><!--/ko--> on <!--ko text: moment(startTime()).format('LL')--><!--/ko-->. </h4>
-            <p><a data-bind="click: $parent.ignoreEvent.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span> Not interested</a></p>
+      <div data-bind="visible: selectedSection().name === 'near'">
+        <p data-bind="noVisibleElements: closebyEvents">
+          Looks like there's nothing here... add your favourite bands and musicians <a href="{% url 'events:find_bands' %}">here</a>!
+          And add the cities you want to visit <a href="{% url 'events:find_cities' %}">here</a>!
+        </p>
+        <div data-bind="foreach: closebyEvents">
+          <div data-bind="visible: notIgnored" class="media">
+            <div class="media-left media-middle">
+              <img width="200px" data-bind="attr:{src:performerImage}" class="media-object">
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading"><!--ko text: performerName--><!--/ko--> in <!--ko text: city--><!--/ko--> on <!--ko text: moment(startTime()).format('LL')--><!--/ko-->. </h4>
+              <p><a data-bind="click: $parent.ignoreEvent.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span> Not interested</a></p>
+            </div>
           </div>
         </div>
       </div>

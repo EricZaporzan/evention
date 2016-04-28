@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 import threading
 import requests
 import pytz
+from unidecode import unidecode
+
 from django.conf import settings
 from django.db import models
 from django.dispatch import receiver
@@ -131,7 +133,7 @@ def fetch_all():
 # This fetches the new events of a single performer. This should be run when a new performer is added to the model.
 def fetch(performer_name):
     performer = Performer.objects.get(name__iexact=performer_name)
-    name = performer.name
+    name = unidecode(performer.name)
     category = ''
     if performer.type == 'artist':
         category = 'music'

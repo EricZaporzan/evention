@@ -46,3 +46,6 @@ django-filter==0.13.0
 
 # Requests, for backend API calls
 requests==2.9.1
+
+# Unidecode, to remove accent marks from text
+unidecode==0.4.19

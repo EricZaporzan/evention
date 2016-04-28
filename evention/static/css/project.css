@@ -70,3 +70,8 @@ body {
 .loading-spinner {
   margin: 15px auto 0;
 }
+
+.light-info-text {
+  color: gray;
+  font-weight: lighter;
+}

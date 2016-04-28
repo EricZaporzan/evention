@@ -60,6 +60,7 @@
             </div>
             <div class="media-body">
               <h4 class="media-heading"><!--ko text: performerName--><!--/ko--> in <!--ko text: city--><!--/ko--> on <!--ko text: moment(startTime()).format('LL')--><!--/ko-->. </h4>
+              <p data-bind="visible: becauseYouLiked() != city()" class="light-info-text"><em>Close to <!--ko text: becauseYouLiked--><!--/ko-->.</em></p>
               <p><a data-bind="click: $parent.ignoreEvent.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span> Not interested</a></p>
             </div>
           </div>

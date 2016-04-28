@@ -12,17 +12,20 @@
   <div class="col-sm-12 col-md-6">
     <h2>Your favourite cities</h2>
     <p>We constantly cross-reference your favourite cities with your likes, to give you the most relevant event results.</p>
-    <p data-bind="noVisibleElements: favouriteCities">Looks like there's nothing here... pick out your favourite cities by typing in the search bar.</p>
-    <ul class="list-group" data-bind="foreach: favouriteCities, visible: favouriteCities().length > 0">
-      <li data-bind="visible: liked" class="list-group-item">
-        <span data-bind="text:city"></span>,
-        <span data-bind="visible: region().length > 0">
-          <span data-bind="text:region"></span>,
-        </span>
-        <span data-bind="text:country"></span>
-        <p><a data-bind="click: $parent.unlikeCity.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-danger"><span class="glyphicon glyphicon-remove"></span></span> Remove from my list</a></p>
-      </li>
-    </ul>
+    <img data-bind="visible: favouriteCitiesLoading" width="25px" class="loading-spinner img-responsive" src="{% static 'images/loading-spinner.gif' %}">
+    <div data-bind="visible: !favouriteCitiesLoading()">
+      <p data-bind="noVisibleElements: favouriteCities">Looks like there's nothing here... pick out your favourite cities by typing in the search bar.</p>
+      <ul class="list-group" data-bind="foreach: favouriteCities, visible: favouriteCities().length > 0">
+        <li data-bind="visible: liked" class="list-group-item">
+          <span data-bind="text:city"></span>,
+          <span data-bind="visible: region().length > 0">
+            <span data-bind="text:region"></span>,
+          </span>
+          <span data-bind="text:country"></span>
+          <p><a data-bind="click: $parent.unlikeCity.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-danger"><span class="glyphicon glyphicon-remove"></span></span> Remove from my list</a></p>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div class="col-sm-12 col-md-6">
@@ -31,17 +34,19 @@
       <input id="city-search" type="search" class="form-control" data-bind="textInput: citySearch" placeholder="Start typing..." />
       <img src="{% static 'images/google-white.png' %}" class="visible-xs">
     </div>
-
-    <ul class="list-group" data-bind="foreach: cityResults, visible: cityResults().length > 0">
-      <li data-bind="visible: disliked" class="list-group-item">
-        <span data-bind="text:city()"></span>,
-        <span data-bind="visible: region().length > 0">
-          <span data-bind="text:region"></span>,
-        </span>
-        <span data-bind="text:country"></span>
-        <p><a data-bind="click: $parent.likeCity.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-success"><span class="glyphicon glyphicon-plus"></span></span> Add to my list</a></p>
-      </li>
-    </ul>
+    <img data-bind="visible: cityResultsLoading" width="25px" class="loading-spinner img-responsive" src="{% static 'images/loading-spinner.gif' %}">
+    <div data-bind="visible: !cityResultsLoading()">
+      <ul class="list-group" data-bind="foreach: cityResults, visible: cityResults().length > 0">
+        <li data-bind="visible: disliked" class="list-group-item">
+          <span data-bind="text:city()"></span>,
+          <span data-bind="visible: region().length > 0">
+            <span data-bind="text:region"></span>,
+          </span>
+          <span data-bind="text:country"></span>
+          <p><a data-bind="click: $parent.likeCity.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-success"><span class="glyphicon glyphicon-plus"></span></span> Add to my list</a></p>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 

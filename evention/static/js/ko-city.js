@@ -17,9 +17,13 @@ function CitySearchViewModel() {
     self.cityResults = ko.observableArray([]);
     self.favouriteCities = ko.observableArray([]);
 
+    self.favouriteCitiesLoading = ko.observable(true);
+    self.cityResultsLoading = ko.observable(false);
+
     self.googleSearch.subscribe(function(newValue) {
         self.cityResults.removeAll();
         if (newValue != "") {
+            self.cityResultsLoading(true);
             var service = new google.maps.places.AutocompleteService();
             service.getQueryPredictions({ input: newValue, options: {type: 'cities'}}, self.queryCallback);
         }
@@ -84,6 +88,7 @@ function CitySearchViewModel() {
                     });
                 }
             }
+            self.cityResultsLoading(false);
         }
     };
 
@@ -102,6 +107,7 @@ function CitySearchViewModel() {
                                                     longitude: response[i].city.longitude,
                                                     liked: response[i].liked}));
             }
+            self.favouriteCitiesLoading(false);
         }
     });
 

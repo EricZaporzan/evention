@@ -13,10 +13,14 @@ function BandSearchViewModel() {
     self.bandResults = ko.observableArray([]);
     self.favouriteBands = ko.observableArray([]);
 
+    self.favouriteBandsLoading = ko.observable(true);
+    self.bandResultsLoading = ko.observable(false);
+
     // Each time there is a delay in typing, query Spotify for the list of artists returned by the search query.
     self.spotifySearch.subscribe(function(newValue) {
         self.bandResults.removeAll();
         if (newValue != "") {
+            self.bandResultsLoading(true);
             $.ajax({
                 url: 'https://api.spotify.com/v1/search?q=' + encodeURI(newValue) + '&type=artist&limit=10',
                 success: function (response) {
@@ -56,6 +60,7 @@ function BandSearchViewModel() {
                             }
                         }
                     }
+                    self.bandResultsLoading(false);
                 }
             });
         }
@@ -72,6 +77,7 @@ function BandSearchViewModel() {
                                                    image: response[i].performer.image,
                                                    liked: response[i].liked}));
             }
+            self.favouriteBandsLoading(false);
         }
     });
 

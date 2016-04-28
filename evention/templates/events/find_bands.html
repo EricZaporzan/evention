@@ -11,15 +11,18 @@
   <div class="col-sm-12 col-md-6">
     <h2>Your favourite artists</h2>
     <p>You can get alerts when someone on your list has a show coming up!</p>
-    <p data-bind="noVisibleElements: favouriteBands">Looks like there's nothing here... find your favourite musical acts and add them!</p>
-    <div data-bind="foreach: favouriteBands, visibleElements: favouriteBands">
-      <div data-bind="visible: liked" class="media">
-        <div class="media-left media-middle">
-          <img width="150px" data-bind="attr:{src:image}" class="media-object">
-        </div>
-        <div class="media-body">
-          <h4 data-bind="text: name" class="media-heading"></h4>
-          <p><a data-bind="click: $parent.unlikeBand.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span> Remove from my list</a></p>
+    <img data-bind="visible: favouriteBandsLoading" width="25px" class="loading-spinner img-responsive" src="{% static 'images/loading-spinner.gif' %}">
+    <div data-bind="visible: !favouriteBandsLoading()">
+      <p data-bind="noVisibleElements: favouriteBands">Looks like there's nothing here... find your favourite musical acts and add them!</p>
+      <div data-bind="foreach: favouriteBands, visibleElements: favouriteBands">
+        <div data-bind="visible: liked" class="media">
+          <div class="media-left media-middle">
+            <img width="150px" data-bind="attr:{src:image}" class="media-object">
+          </div>
+          <div class="media-body">
+            <h4 data-bind="text: name" class="media-heading"></h4>
+            <p><a data-bind="click: $parent.unlikeBand.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span> Remove from my list</a></p>
+          </div>
         </div>
       </div>
     </div>
@@ -31,15 +34,17 @@
       <input id="band-search" type="search" class="form-control" data-bind="textInput: bandSearch" placeholder="Start typing..." />
       <p>Search powered by <a href="https://spotify.com" target="_blank">Spotify</a>.</p>
     </div>
-
-    <div data-bind="foreach: bandResults, visible: bandResults().length > 0">
-      <div data-bind="visible: disliked" class="media">
-        <div class="media-left media-middle">
-          <img width="150px" data-bind="attr:{src: image}" class="media-object">
-        </div>
-        <div class="media-body">
-          <h4 data-bind="text: name" class="media-heading"></h4>
-          <p><a data-bind="click: $parent.likeBand.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-success"><span class="glyphicon glyphicon-plus"></span></span> Add to my list</a></p>
+    <img data-bind="visible: bandResultsLoading" width="25px" class="loading-spinner img-responsive" src="{% static 'images/loading-spinner.gif' %}">
+    <div data-bind="!bandResultsLoading()">
+      <div data-bind="foreach: bandResults, visible: bandResults().length > 0">
+        <div data-bind="visible: disliked" class="media">
+          <div class="media-left media-middle">
+            <img width="150px" data-bind="attr:{src: image}" class="media-object">
+          </div>
+          <div class="media-body">
+            <h4 data-bind="text: name" class="media-heading"></h4>
+            <p><a data-bind="click: $parent.likeBand.bind($parent, '{{ request.user.id }}')" href="#"><span class="text-success"><span class="glyphicon glyphicon-plus"></span></span> Add to my list</a></p>
+          </div>
         </div>
       </div>
     </div>

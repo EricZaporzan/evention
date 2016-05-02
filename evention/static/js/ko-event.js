@@ -86,7 +86,6 @@ function MyEventsViewModel() {
                                                     longitude: response[i].city.longitude,
                                                     liked: response[i].liked}));
             }
-            
             // Grabbing all the events.
             $.ajax({
                 method: 'GET',
@@ -112,9 +111,7 @@ function MyEventsViewModel() {
                                                     longitude: response[i].longitude,
                                                     startTime: response[i].start_time,
                                                     ignored: ignored });
-
                         self.events.push(newEvent);
-
                         var favouriteCities = self.favouriteCities();
                         for (var k = 0; k < favouriteCities.length; k++) {
                             if (favouriteCities[k].liked()) {

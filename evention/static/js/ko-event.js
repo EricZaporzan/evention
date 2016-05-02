@@ -71,49 +71,6 @@ function MyEventsViewModel() {
         }
     });
 
-    // Grabbing all the events.
-    $.ajax({
-        method: 'GET',
-        url: '/api/events/',
-        success: function(response) {
-            for (var i=0; i < response.length; i++) {
-                var ignored = false;
-                for (var j=0; j < self.ignoredEvents().length; j++) {
-                    if (response[i].id == self.ignoredEvents()[j].eventId()) {
-                        ignored = self.ignoredEvents()[j].ignored();
-                        break;
-                    }
-                }
-
-                var newEvent = new MyEvent({id: response[i].id,
-                                            title: response[i].title,
-                                            performerName: response[i].performer.name,
-                                            performerImage: response[i].performer.image,
-                                            venueName: response[i].venue_name,
-                                            city: response[i].city,
-                                            country: response[i].country,
-                                            latitude: response[i].latitude,
-                                            longitude: response[i].longitude,
-                                            startTime: response[i].start_time,
-                                            ignored: ignored });
-
-                self.events.push(newEvent);
-
-                var favouriteCities = self.favouriteCities();
-                for (var k = 0; k < favouriteCities.length; k++) {
-                    if (favouriteCities[k].liked()) {
-                        var distanceBetween = getDistanceFromLatLonInKm(newEvent.latitude(), newEvent.longitude(), favouriteCities[k].latitude(), favouriteCities[k].longitude());
-                        if (distanceBetween < 50.0) {
-                            newEvent.becauseYouLiked = favouriteCities[k].city;
-                            self.closebyEvents.push(newEvent);
-                        }
-                    }
-                }
-            }
-            self.isLoading(false);
-        }
-    });
-
     // Grabbing the liked cities for the current user.
     $.ajax({
         method: 'GET',
@@ -129,6 +86,50 @@ function MyEventsViewModel() {
                                                     longitude: response[i].city.longitude,
                                                     liked: response[i].liked}));
             }
+            
+            // Grabbing all the events.
+            $.ajax({
+                method: 'GET',
+                url: '/api/events/',
+                success: function(response) {
+                    for (var i=0; i < response.length; i++) {
+                        var ignored = false;
+                        for (var j=0; j < self.ignoredEvents().length; j++) {
+                            if (response[i].id == self.ignoredEvents()[j].eventId()) {
+                                ignored = self.ignoredEvents()[j].ignored();
+                                break;
+                            }
+                        }
+
+                        var newEvent = new MyEvent({id: response[i].id,
+                                                    title: response[i].title,
+                                                    performerName: response[i].performer.name,
+                                                    performerImage: response[i].performer.image,
+                                                    venueName: response[i].venue_name,
+                                                    city: response[i].city,
+                                                    country: response[i].country,
+                                                    latitude: response[i].latitude,
+                                                    longitude: response[i].longitude,
+                                                    startTime: response[i].start_time,
+                                                    ignored: ignored });
+
+                        self.events.push(newEvent);
+
+                        var favouriteCities = self.favouriteCities();
+                        for (var k = 0; k < favouriteCities.length; k++) {
+                            if (favouriteCities[k].liked()) {
+                                var distanceBetween = getDistanceFromLatLonInKm(newEvent.latitude(), newEvent.longitude(),
+                                    favouriteCities[k].latitude(), favouriteCities[k].longitude());
+                                if (distanceBetween < 50.0) {
+                                    newEvent.becauseYouLiked = favouriteCities[k].city;
+                                    self.closebyEvents.push(newEvent);
+                                }
+                            }
+                        }
+                    }
+                    self.isLoading(false);
+                }
+            });
         }
     });
 

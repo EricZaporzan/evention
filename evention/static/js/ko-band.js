@@ -73,11 +73,59 @@ function BandSearchViewModel() {
         success: function(response) {
             for (var i=0; i < response.length; i++) {
                 self.favouriteBands.push(new Band({likeId: response[i].id,
-                                                   name: response[i].performer.name,
-                                                   image: response[i].performer.image,
-                                                   liked: response[i].liked}));
+                    name: response[i].performer.name,
+                    image: response[i].performer.image,
+                    liked: response[i].liked}));
             }
-            self.favouriteBandsLoading(false);
+
+            // Check to see if we're returning from Spotify, if we are, we need to grab the user's auth token.
+            var hashParams = getHashParams();
+            if(hashParams.access_token) {
+                console.log('Gathering follows from Spotify.');
+                $.ajax({
+                    url: 'https://api.spotify.com/v1/me/following?type=artist&limit=50',
+                    headers: {
+                        'Authorization': 'Bearer ' + hashParams.access_token
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        for (var i = 0; i < response.artists.items.length; i++) {
+                            var image = "/static/images/noimage.png";
+                            if (response.artists.items[i].images.length > 0) {
+                                image = response.artists.items[i].images[0].url;
+                            }
+
+                            var alreadyLiked = false;
+                            var likeId = -1;
+                            var favouriteBands = self.favouriteBands();
+                            for (var j = 0; j < favouriteBands.length; j++) {
+                                if (favouriteBands[j].name() == response.artists.items[i].name) {
+                                    if (favouriteBands[j].liked()) {
+                                        alreadyLiked = true;
+                                        break;
+                                    }
+                                    else {
+                                        likeId = favouriteBands[j].likeId();
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!alreadyLiked) {
+                                self.likeBand("", new Band({
+                                    likeId: likeId,
+                                    name: response.artists.items[i].name,
+                                    image: image,
+                                    liked: true
+                                }));
+                            }
+                        }
+                        self.favouriteBandsLoading(false);
+                    }
+                });
+            }
+            else {
+                self.favouriteBandsLoading(false);
+            }
         }
     });
 

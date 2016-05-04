@@ -119,7 +119,16 @@ function BandSearchViewModel() {
                                 }));
                             }
                         }
+                        $("#spotify-result").addClass("text-success");
+                        $("#spotify-result").html("Successfully fetched your favourite artists from Spotify and added them to your list.");
                         self.favouriteBandsLoading(false);
+                        window.location.hash = "";
+                    },
+                    error: function() {
+                        $("#spotify-result").addClass("text-warning");
+                        $("#spotify-result").html("Sorry, something went wrong while trying to reach Spotify.");
+                        self.favouriteBandsLoading(false);
+                        window.location.hash = "";
                     }
                 });
             }

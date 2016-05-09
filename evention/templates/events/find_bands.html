@@ -32,7 +32,7 @@
     <h2>What <span data-bind="visibleElements: favouriteBands">other </span>artists do you like?</h2>
     <div>
       <input id="band-search" type="search" class="form-control" data-bind="textInput: bandSearch" placeholder="Start typing..." />
-      <p>Search powered by <a href="https://spotify.com" target="_blank">Spotify</a>. <a href="https://accounts.spotify.com/authorize?client_id=42951751b29d4dd9a525a6562500234c&redirect_uri=http:%2F%2F{{ request.get_host }}%2Fevents%2Fdiscover-artists&scope=user-follow-read&response_type=token">Connect with your Spotify account</a> to import all of your followed artists automatically!</p>
+      <p>Search powered by <a href="https://spotify.com" target="_blank">Spotify</a>. <a href="https://accounts.spotify.com/authorize?client_id=42951751b29d4dd9a525a6562500234c&redirect_uri=http:%2F%2F{{ request.get_host }}%2Fevents%2Fdiscover-artists%2F&scope=user-follow-read&response_type=token">Connect with your Spotify account</a> to import all of your followed artists automatically!</p>
       <p id="spotify-result"></p>
     </div>
     <img data-bind="visible: bandResultsLoading" width="25px" class="loading-spinner img-responsive" src="{% static 'images/loading-spinner.gif' %}">
